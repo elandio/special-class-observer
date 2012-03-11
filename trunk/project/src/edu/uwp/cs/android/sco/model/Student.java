@@ -21,7 +21,7 @@ public class Student {
     private Map<String, Integer> attrs = new HashMap<String, Integer>();  // Attributes
     
     
-    public void Student(String fName, String lName){
+    public Student(String fName, String lName){
         this.fName = fName;
         this.lName = lName;
         
