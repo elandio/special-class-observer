@@ -3,56 +3,60 @@
  */
 package edu.uwp.cs.android.sco.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import android.util.Log;
 
-
 /**
  * Holds a list of classes
  * 
- * @author  M.Duettmann
- *
+ * @author M.Duettmann
  */
-public class ClassList extends 
-ArrayList<StudentList> {
+public class ClassList implements Serializable {
 
-    private List<StudentList> clList = new ArrayList<StudentList>();    
+    private static final long serialVersionUID = 736367943607885903L;
 
-    @Override
-    public boolean add(StudentList stList){
-        
+    List<StudentList> clList;
+
+    public ClassList() {
+        clList = new ArrayList<StudentList>();
+    }
+
+    public boolean add(StudentList stList) {
         clList.add(stList);
         return true;
     }
-    
-    /**
-     * @return the clList
-     */
-    public List<StudentList> getClList() {
-        return clList;
+
+    public StudentList get(int position) {
+        return clList.get(position);
     }
-    
-    public String[] getStudentNames(){
-        
+
+    public Integer size() {
+        return clList.size();
+    }
+
+    public String[] getClassesNames() {
         int size = clList.size();
-        
-        String[] str = new String[size];
-        
-        Iterator iterator = clList.iterator();
+        String[] str;
+
         int i = 0;
-        
-        while(iterator.hasNext()){
-            String s = iterator.next().toString();
-            Log.i("Test", s);
-            str[i] = s;
+
+        if (size != 0) {
             
-            i++;
+            str  = new String[size];
+            
+            for (StudentList stList : clList) {
+                str[i] = stList.toString();
+                i++;
+            }            
         }
-        
+        else {
+            str = new String[]{"No classes"};
+        }
         return str;
     }
-    
+
 }

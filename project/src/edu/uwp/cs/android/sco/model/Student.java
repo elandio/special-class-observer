@@ -3,6 +3,7 @@
  */
 package edu.uwp.cs.android.sco.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,47 +12,21 @@ import java.util.Map;
  * 
  * @author M.Duettmann
  */
-public class Student {
+public class Student implements Serializable{
 
-    private String lName; // Last Name
+    private static final long serialVersionUID = -6081462500274581471L;
 
-    private String fName; // First Name
+    String lName; // Last Name
 
-    private Map<String, Integer> attrs = new HashMap<String, Integer>(); // Attributes
+     String fName; // First Name
+
+     Map<String, Integer> attrs = new HashMap<String, Integer>(); // Attributes
 
     public Student(String fName, String lName) {
         this.fName = fName;
         this.lName = lName;
-
     }
 
-    /**
-     * @return the lName
-     */
-    public String getlName() {
-        return lName;
-    }
-
-    /**
-     * @param lName the lName to set
-     */
-    public void setlName(String lName) {
-        this.lName = lName;
-    }
-
-    /**
-     * @return the fName
-     */
-    public String getfName() {
-        return fName;
-    }
-
-    /**
-     * @param fName the fName to set
-     */
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
     
     public String toString(){
         return (fName + " " + lName);

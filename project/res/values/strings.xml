@@ -3,6 +3,7 @@
 
     <string name="hello">Hello World, SCOActivity!</string>
     <string name="app_name">Start</string>
+    <string name="student_list_addStudent">add student</string>
     
     <!-- convert_to_pdf -->
     <string name="convert_to_pdf_createFor">Creating PDF file for student: </string>
