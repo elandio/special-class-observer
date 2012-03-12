@@ -21,8 +21,9 @@
         
         <activity 
             android:name="ClassListActivity">
-            
-            
+        </activity>
+        <activity 
+            android:name="StudentListActivity">
         </activity>
     </application>
 
