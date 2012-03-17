@@ -19,7 +19,7 @@
             android:text="@string/searchClasses" /> 
 
             <Button
-                android:id="@+id/addClass"
+                android:id="@+id/addClassButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/class_list_addClass" />
