@@ -11,11 +11,18 @@
         android:gravity="right"
         android:orientation="horizontal" >
 
-        <Button
-            android:id="@+id/addStudent"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/searchClassList"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="@string/student_list_addStudent" />
+            android:editable="true"
+            android:text="@string/searchClasses" /> 
+
+            <Button
+                android:id="@+id/addClass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/class_list_addClass" />
     </LinearLayout>
 
     <ListView

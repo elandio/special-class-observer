@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, SCOActivity!</string>
-    <string name="app_name">Start</string>
-    <string name="student_list_addStudent">add student</string>
+    <string name="welcome">Welcome to SCO!</string>
+    <string name="app_name">Student Classroom Observer</string>
+    
+    <!-- class_list -->
+	<string name="class_list_addClass">add class</string>
+	
+	<!-- student_list -->
+	<string name="student_list_addStudent">add student</string>
+    <string name="searchStudents">Search Studentes</string>
+    <string name="searchClasses">Search CLasses</string>
     
     <!-- convert_to_pdf -->
     <string name="convert_to_pdf_createFor">Creating PDF file for student: </string>

@@ -11,6 +11,15 @@
         android:gravity="right"
         android:orientation="horizontal" >
 
+        <EditText android:id="@+id/searchStudentList"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@string/searchStudents" 
+            android:editable="true"
+            />
+        
+        <!-- Table layout to fit the sizes and gravity -->
+        
         <TextView android:id="@+id/className"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
