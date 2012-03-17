@@ -4,6 +4,8 @@
 package edu.uwp.cs.android.sco;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,9 +15,9 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import edu.uwp.cs.android.sco.model.ClassList;
 import edu.uwp.cs.android.sco.model.Student;
@@ -33,6 +35,11 @@ public class ClassListActivity extends Activity {
     private EditText searchEdit;
 
     private ArrayAdapter<String> adapter;
+    
+    private Button addClass;
+    
+    private Activity thisActivity;
+    
 
     /** Called when the activity is first created. */
     @Override
@@ -40,8 +47,10 @@ public class ClassListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.class_list);
 
+        thisActivity = this;
         lView = (ListView) findViewById(R.id.clList);
         searchEdit = (EditText) findViewById(R.id.searchClassList);
+        addClass = (Button) findViewById(R.id.addClassButton);
 
         // Test Data
         clList = new ClassList();
@@ -81,7 +90,7 @@ public class ClassListActivity extends Activity {
         // Assign adapter to ListView
         lView.setAdapter(adapter);
 
-        TextWatcher changeListener = new TextWatcher() {
+        searchEdit.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -101,17 +110,62 @@ public class ClassListActivity extends Activity {
                 // TODO Auto-generated method stub
 
             }
-        };
+        });
 
-        OnClickListener onClickListener = new OnClickListener() {
+        searchEdit.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 searchEdit.setText("");
             }
-        };
-        searchEdit.setOnClickListener(onClickListener);
-        searchEdit.addTextChangedListener(changeListener);
+        });
+        
+        
+        addClass.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                final Dialog addClassDialog = new Dialog(ClassListActivity.this);
+               
+                addClassDialog.setContentView(R.layout.add_class);
+                addClassDialog.setTitle("Add a class");
+                addClassDialog.setCancelable(true);
+                
+                addClassDialog.show();
+                
+                
+                final EditText newClassText = (EditText) addClassDialog.findViewById(R.id.classNameEditText);
+                Button cancelButton = (Button) addClassDialog.findViewById(R.id.cancelButton);
+                Button saveButton = (Button) addClassDialog.findViewById(R.id.saveButton);
+                
+                cancelButton.setOnClickListener(new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        addClassDialog.dismiss();
+                    }
+                });
+                
+                saveButton.setOnClickListener(new OnClickListener() {
+                    
+                    @Override
+                    public void onClick(View v) {
+                        clList.add(new StudentList(newClassText.getText().toString()));
+//                        adapter.notifyDataSetChanged();
+//                        lView.invalidateViews();
+                        //TODO: Not perfect better update then creating a new adapter but notofiyDataSetChanged() is not working now....
+                        adapter = new ArrayAdapter<String>(ClassListActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, clList.getClassesNames());
+                        // Assign adapter to ListView
+                        lView.setAdapter(adapter);
+                        
+                        addClassDialog.dismiss();
+                    }
+                });
+                
+
+                
+            }
+        }); 
 
     }
 }
