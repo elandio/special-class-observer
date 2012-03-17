@@ -23,11 +23,21 @@ public class StudentList implements Serializable {
 
     List<Student> stList;
 
+    /**
+     * Constructor
+     * 
+     * @param name Name of the list
+     */
     public StudentList(String name) {
         this.name = name;
         stList = new ArrayList<Student>();
     }
 
+    /**
+     * 
+     * @param st Student which should be added
+     * @return Status if import was successfull
+     */
     public boolean add(Student st) {
         stList.add(st);
         return true;
@@ -37,6 +47,10 @@ public class StudentList implements Serializable {
         return stList.size();
     }
 
+    /**
+     * 
+     * @return A String array with all the student names
+     */
     public String[] getStudentsNames() {
 
         int size = stList.size();
