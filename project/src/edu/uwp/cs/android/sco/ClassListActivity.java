@@ -5,7 +5,6 @@ package edu.uwp.cs.android.sco;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -38,8 +37,6 @@ public class ClassListActivity extends Activity {
     
     private Button addClass;
     
-    private Activity thisActivity;
-    
 
     /** Called when the activity is first created. */
     @Override
@@ -47,7 +44,6 @@ public class ClassListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.class_list);
 
-        thisActivity = this;
         lView = (ListView) findViewById(R.id.clList);
         searchEdit = (EditText) findViewById(R.id.searchClassList);
         addClass = (Button) findViewById(R.id.addClassButton);
@@ -151,8 +147,10 @@ public class ClassListActivity extends Activity {
                     @Override
                     public void onClick(View v) {
                         clList.add(new StudentList(newClassText.getText().toString()));
+                        
 //                        adapter.notifyDataSetChanged();
 //                        lView.invalidateViews();
+                        
                         //TODO: Not perfect better update then creating a new adapter but notofiyDataSetChanged() is not working now....
                         adapter = new ArrayAdapter<String>(ClassListActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, clList.getClassesNames());
                         // Assign adapter to ListView
