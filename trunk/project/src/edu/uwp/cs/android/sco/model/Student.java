@@ -4,7 +4,9 @@
 package edu.uwp.cs.android.sco.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +22,7 @@ public class Student implements Serializable {
 
     String fName; // First Name
 
-    Map<String, Integer> attrs = new HashMap<String, Integer>(); // Attributes
+    List<ChecklistEntry> attributes;
 
     /**
      * Constructor
@@ -31,6 +33,7 @@ public class Student implements Serializable {
     public Student(String fName, String lName) {
         this.fName = fName;
         this.lName = lName;
+        attributes = new ArrayList<ChecklistEntry>();
     }
     
     /**
