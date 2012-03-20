@@ -5,10 +5,7 @@ package edu.uwp.cs.android.sco.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
-import android.util.Log;
 
 /**
  * Holds a list of students

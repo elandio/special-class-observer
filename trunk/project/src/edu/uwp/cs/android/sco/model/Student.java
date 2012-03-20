@@ -6,6 +6,7 @@ package edu.uwp.cs.android.sco.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+
 /**
  * Student model
  * 
