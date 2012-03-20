@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TableRow 
+        android:layout_width="fill_parent">
+
+        <TextView
+            android:id="@+id/tvattribute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left" />
+
+        <RatingBar
+            android:id="@+id/ratingbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:numStars="5"
+            android:stepSize="1" />
+
+    </TableRow>
+    
+    <TableRow >
+        <TextView 
+            android:id="@+id/tvinfo"
+            android:layout_width="wrap_content"/>
+    </TableRow>
+</TableLayout>
