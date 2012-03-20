@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:screenOrientation="portrait" android:name="ConvertToPDFActivity"></activity>
+        <activity android:name="ConvertToPDFActivity"></activity>
         
         <activity 
             android:name="ClassListActivity">
@@ -25,6 +25,8 @@
         <activity 
             android:name="StudentListActivity">
         </activity>
+        <activity android:name="StudentEditActivity"></activity>
     </application>
+    
 
 </manifest>

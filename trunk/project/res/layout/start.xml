@@ -7,22 +7,30 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/welcome"
-        android:textSize="35dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:layout_marginBottom="30dp" />
+        android:text="@string/welcome"
+        android:textSize="35dp" />
 
     <Button
         android:id="@+id/navToClassList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Open ClassListActivity" 
-        android:layout_marginBottom="30dp"/>
-    
+        android:layout_marginBottom="10dp"
+        android:text="Open ClassListActivity" />
+
     <Button
         android:id="@+id/navToConvertToPDF"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:text="Open ConvertToPDFActivity" />
+
+    <Button
+        android:id="@+id/navToStudentEdit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Open StudentEditActivity" />
 
 </LinearLayout>

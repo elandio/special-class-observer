@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class StartActivity extends Activity implements View.OnClickListener{
     /** Called when the activity is first created. */
-	Button navToClassList, navToConvertToPDF;
+	Button navToClassList, navToConvertToPDF, navToStudentEdit;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,10 +18,12 @@ public class StartActivity extends Activity implements View.OnClickListener{
         // find buttons
         navToClassList = (Button) findViewById(R.id.navToClassList);
         navToConvertToPDF = (Button) findViewById(R.id.navToConvertToPDF);
+        navToStudentEdit = (Button) findViewById(R.id.navToStudentEdit);
         
         // set OnClickListeners
         navToClassList.setOnClickListener(this);
         navToConvertToPDF.setOnClickListener(this);
+        navToStudentEdit.setOnClickListener(this);
         
     }
 
@@ -34,6 +36,10 @@ public class StartActivity extends Activity implements View.OnClickListener{
 		}
 		if (v == navToConvertToPDF) {
 			Intent i = new Intent(this, ConvertToPDFActivity.class);    
+	        startActivity(i);
+		}
+		if (v == navToStudentEdit) {
+			Intent i = new Intent(this, StudentEditActivity.class);    
 	        startActivity(i);
 		}
 		
