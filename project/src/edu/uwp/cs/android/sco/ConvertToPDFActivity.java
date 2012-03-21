@@ -29,7 +29,7 @@ public class ConvertToPDFActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.convert_to_pdf);
         
-        Student stud1 = new Student("Peter", "Maffay");
+        Student stud1 = new Student("Peter", "Maffay", "Test");
         
         createPDF();
         openPDF();

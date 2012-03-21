@@ -5,26 +5,18 @@ package edu.uwp.cs.android.sco;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.database.DataSetObserver;
-import android.inputmethodservice.KeyboardView.OnKeyboardActionListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.view.View.OnKeyListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
-import edu.uwp.cs.android.sco.model.Student;
-import edu.uwp.cs.android.sco.model.StudentList;
+import edu.uwp.cs.android.sco.sqllite.StudentsDB;
 
 
 /**
@@ -38,6 +30,8 @@ public class StudentListActivity extends Activity {
     private EditText searchEdit;
     private ArrayAdapter<String> adapter;
     private Button addStundentButton;
+    private StudentsDB studentsDB;
+    private String className;
     
     /** Called when the activity is first created. */
     @Override
@@ -49,20 +43,19 @@ public class StudentListActivity extends Activity {
         tView = (TextView) findViewById(R.id.className);
         searchEdit = (EditText) findViewById(R.id.searchStudentList);
         addStundentButton = (Button) findViewById(R.id.addStudentButton);
+        
+        studentsDB = new StudentsDB(this);
+        studentsDB.open();
+        
 
-        System.out.println(getIntent().getSerializableExtra("Selected_Class"));
+        className = (String) getIntent().getSerializableExtra("Selected_Class");
+        tView.setText(className);
         
-        final StudentList stList = (StudentList) getIntent().getSerializableExtra("Selected_Class");
-        tView.setText(stList.toString());
+        String[] students = studentsDB.getStundesInClass(className);
         
-        // First paramenter - Context
-        // Second parameter - Layout for the row
-        // Third parameter - ID of the View to which the data is written
-        // Forth - the Array of data
         adapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_list_item_1, android.R.id.text1, stList.getStudentsNames());
-
-        // Assign adapter to ListView
+            android.R.layout.simple_list_item_1, android.R.id.text1, students);
+        
         lView.setAdapter(adapter);
         
         searchEdit.addTextChangedListener(new TextWatcher() {
@@ -127,12 +120,14 @@ public class StudentListActivity extends Activity {
                     
                     @Override
                     public void onClick(View v) {
-                        stList.add(new Student(fNameText.getText().toString(), lNameText.getText().toString()));
-//                        adapter.notifyDataSetChanged();
-//                        lView.invalidateViews();
-                        //TODO: Not perfect better update then creating a new adapter but notofiyDataSetChanged() is not working now....
-                        adapter = new ArrayAdapter<String>(StudentListActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, stList.getStudentsNames());
-                        // Assign adapter to ListView
+                        
+                        studentsDB.createStudent(fNameText.getText().toString(), lNameText.getText().toString(), className);
+                        
+                        String[] students = studentsDB.getStundesInClass(className);
+                        
+                        adapter = new ArrayAdapter<String>(StudentListActivity.this,
+                                android.R.layout.simple_list_item_1, android.R.id.text1, students);
+
                         lView.setAdapter(adapter);
                         
                         addClassDialog.dismiss();
