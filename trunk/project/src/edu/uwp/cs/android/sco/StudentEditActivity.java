@@ -15,7 +15,7 @@ public class StudentEditActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_student);
-	    Student test = new Student("Matthias", "Kleinert");
+	    Student test = new Student("Matthias", "Kleinert", "Schwul");
 	    test.addDisability("Test1", "Test1");
 	    Disability[] disabilities = new Disability[test.attrs.size()];
 	    int i=0;

@@ -19,11 +19,16 @@ public class Student implements Serializable {
 	String lName; // Last Name
 
 	String fName; // First Name
+	
+	String className;
+	
 	public ArrayList<Disability> attrs;
+	
 
-	public Student(String fName, String lName) {
+	public Student(String fName, String lName, String className) {
 		this.fName = fName;
 		this.lName = lName;
+		this.className = className;
 		attrs = new ArrayList<Disability>();
 		attrs.add(new Disability("Disability 1", "Info 1"));
 		attrs.add(new Disability("Disability 2", "Info 2"));
