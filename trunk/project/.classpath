@@ -9,5 +9,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/itextpdf-5.2.0-custom.jar"/>
+	<classpathentry kind="lib" path="libs/greenDAO.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

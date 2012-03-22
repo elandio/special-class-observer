@@ -57,7 +57,7 @@ public class ClassListActivity extends Activity {
 
                 String className = classesDB.getClassName(position);
 
-                Intent i = new Intent(parent.getContext(), StudentListActivity.class);
+                Intent i = new Intent(parent.getContext(), StudentListActivityOLD.class);
                 i.putExtra("Selected_Class", className);
                 startActivity(i);
             }

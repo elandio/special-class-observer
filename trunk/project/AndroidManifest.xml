@@ -23,7 +23,7 @@
             android:name="ClassListActivity">
         </activity>
         <activity 
-            android:name="StudentListActivity">
+            android:name=".StudentOverviewActivity">
         </activity>
         <activity android:name="StudentEditActivity"></activity>
     </application>
