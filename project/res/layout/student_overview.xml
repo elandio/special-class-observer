@@ -13,7 +13,8 @@
             android:id="@+id/student_overview_bAddStudent"
             android:text="Add Student"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"></Button>
+            android:layout_width="wrap_content"
+            android:layout_marginRight="30dp"></Button>
 		<EditText
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -25,8 +26,8 @@
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:text="Add"
-			android:id="@+id/bAddStudent"
+			android:text="Reset Search"
+			android:id="@+id/student_overview_bResetSearch"
 			android:onClick="onMyButtonClick"></Button>
 	</LinearLayout>
 	<ListView

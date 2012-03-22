@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2011 Markus Junginger, greenrobot (http://greenrobot.de)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package edu.uwp.cs.android.sco;
 
 import android.app.AlertDialog;
@@ -25,16 +10,12 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
@@ -51,9 +32,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private Cursor cursor;
     
     // buttons
-    Button buttonAddStudent;
-    private EditText editText;
-
+    private Button buttonAddStudent, buttonResetSearch;
+    private EditText etSearchStudent;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,51 +55,103 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
         setListAdapter(adapter);
 
-        editText = (EditText) findViewById(R.id.et_searchStudent);
-        addUiListeners();
+        etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
         
         // initialize buttons and set onclicklisteners
         buttonAddStudent = (Button) findViewById(R.id.student_overview_bAddStudent);
         buttonAddStudent.setOnClickListener(this);
+        
+        buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
+        buttonResetSearch.setOnClickListener(this);
     }
 
-    protected void addUiListeners() {
-        editText.setOnEditorActionListener(new OnEditorActionListener() {
-
+	@Override
+	public void onClick(View v) {
+		if (v == buttonAddStudent) {
+			openAddStudentDialog();
+		}
+		if (v == buttonResetSearch) {
+			etSearchStudent.setText("");
+		}
+	}
+	
+	public void openAddStudentDialog() {
+		final Dialog addStudentDialog = new Dialog(StudentOverviewActivity.this);
+        
+        addStudentDialog.setContentView(R.layout.dialog_add_student);
+        addStudentDialog.setTitle("Add a student");
+        addStudentDialog.setCancelable(true);
+        addStudentDialog.show();
+        
+        final EditText fNameText = (EditText) addStudentDialog.findViewById(R.id.studentFNameEditText);
+        final EditText lNameText = (EditText) addStudentDialog.findViewById(R.id.studentLNameEditText);
+        
+        Button cancelButton = (Button) addStudentDialog.findViewById(R.id.cancelButton);
+        final Button saveButton = (Button) addStudentDialog.findViewById(R.id.saveButton);
+        saveButton.setEnabled(false);
+        
+        fNameText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable s) {
+				saveButton.setEnabled(validateAddStudentInput(addStudentDialog, fNameText, lNameText));
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+        });
+        
+        lNameText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable s) {
+				saveButton.setEnabled(validateAddStudentInput(addStudentDialog, fNameText, lNameText));
+			}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			}
+        });
+        
+        saveButton.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    addStudent();
-                    return true;
-                }
-                return false;
+            public void onClick(View v) {
+            	String firstName = fNameText.getText().toString();
+            	String lastName = lNameText.getText().toString();
+            	
+            	// clear fields for first and last name
+                fNameText.setText("");
+                lNameText.setText("");
+
+                Student student = new Student(null, firstName, lastName);
+                studentDao.insert(student);
+                student.addDefaultDisabilities();
+                Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
+
+                cursor.requery();
+                addStudentDialog.dismiss();
             }
         });
-
-        final View button = findViewById(R.id.bAddStudent);
-        button.setEnabled(false);
-        editText.addTextChangedListener(new TextWatcher() {
-
+        
+        cancelButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                boolean enable = s.length() != 0;
-                button.setEnabled(enable);
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+            public void onClick(View v) {
+                addStudentDialog.dismiss();
             }
         });
+	}
+	
+	public boolean validateAddStudentInput(Dialog dialog, EditText firstName, EditText lastName) {
+    	if (!firstName.getText().toString().equals("") 
+    			&& !lastName.getText().toString().equals("")) {
+    		return true;
+    	}            	
+    	return false;
     }
-
-    public void onMyButtonClick(View view) {
-        //addStudent();
-    }
-
+    
     /**
      * DELETE STUDENT AND RELATIONS
      */
@@ -126,17 +159,16 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     protected void onListItemClick(ListView l, View v, int position, final long studentId) {
     	final Student student = studentDao.load(studentId);
     	final AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverviewActivity.this);
-    	builder.setMessage("Are you sure you want to delete student " + student.getFName() + " " 
-    							+ student.getLName() + "?")
+    	builder.setMessage("Are you sure you want to delete student " 
+    						+ student.getFName() + " " + student.getLName() + "?")
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
-    	        	   
     	               student.deleteRelation(studentId);
     	               studentDao.deleteByKey(studentId);
+    	               cursor.requery();
     	               
     	               Log.d("SCO-Project", "Deleted student, studentId: " + studentId);
-    	               cursor.requery();
     	           }
     	       })
     	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -147,55 +179,5 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	AlertDialog alert = builder.create();
     	alert.show();
     }
-
-	@Override
-	public void onClick(View v) {
-		if (v == buttonAddStudent) {
-			openAddStudentDialog();
-		}
-	}
-	
-	public void openAddStudentDialog() {
-		final Dialog addClassDialog = new Dialog(StudentOverviewActivity.this);
-        
-        addClassDialog.setContentView(R.layout.dialog_add_student);
-        addClassDialog.setTitle("Add a student");
-        addClassDialog.setCancelable(true);
-        addClassDialog.show();
-        
-        final EditText fNameText = (EditText) addClassDialog.findViewById(R.id.studentFNameEditText);
-        final EditText lNameText = (EditText) addClassDialog.findViewById(R.id.studentLNameEditText);
-        Button cancelButton = (Button) addClassDialog.findViewById(R.id.cancelButton);
-        Button saveButton = (Button) addClassDialog.findViewById(R.id.saveButton);
-        
-        cancelButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addClassDialog.dismiss();
-            }
-        });
-        
-        saveButton.setOnClickListener(new OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-            	String firstName = fNameText.getText().toString();
-            	String lastName = lNameText.getText().toString();
-            	// clear 
-                fNameText.setText("");
-                lNameText.setText("");
-
-                Student student = new Student(null, firstName, lastName);
-                studentDao.insert(student);
-                student.addDefaultDisabilities();
-
-                Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
-
-                cursor.requery();
-            	
-                addClassDialog.dismiss();
-            }
-        });
-	}
 
 }
