@@ -23,7 +23,7 @@ import edu.uwp.cs.android.sco.sqllite.StudentsDB;
  * @author M.Duettmann
  *
  */
-public class StudentListActivity extends Activity {
+public class StudentListActivityOLD extends Activity {
     
     private ListView lView;
     private TextView tView;
@@ -94,9 +94,9 @@ public class StudentListActivity extends Activity {
             
             @Override
             public void onClick(View v) {
-                final Dialog addClassDialog = new Dialog(StudentListActivity.this);
+                final Dialog addClassDialog = new Dialog(StudentListActivityOLD.this);
                
-                addClassDialog.setContentView(R.layout.add_student);
+                addClassDialog.setContentView(R.layout.dialog_add_student);
                 addClassDialog.setTitle("Add a student");
                 addClassDialog.setCancelable(true);
                 
@@ -125,7 +125,7 @@ public class StudentListActivity extends Activity {
                         
                         String[] students = studentsDB.getStundesInClass(className);
                         
-                        adapter = new ArrayAdapter<String>(StudentListActivity.this,
+                        adapter = new ArrayAdapter<String>(StudentListActivityOLD.this,
                                 android.R.layout.simple_list_item_1, android.R.id.text1, students);
 
                         lView.setAdapter(adapter);

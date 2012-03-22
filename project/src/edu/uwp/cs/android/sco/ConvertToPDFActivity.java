@@ -19,6 +19,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import edu.uwp.cs.android.sco.model.Disability;
 import edu.uwp.cs.android.sco.model.Student;
 
 public class ConvertToPDFActivity extends Activity {
@@ -30,12 +31,15 @@ public class ConvertToPDFActivity extends Activity {
         setContentView(R.layout.convert_to_pdf);
         
         Student stud1 = new Student("Peter", "Maffay", "Test");
+        stud1.addDisability("Disability 1", "Info 1");
+        stud1.addDisability("Disability 2", "Info 2");
+        stud1.addDisability("Disability 3", "Info 3");
         
-        createPDF();
+        createPDF(stud1);
         openPDF();
     }
     
-    public void createPDF() {
+    public void createPDF(Student student) {
 		try {
 			Document document = new Document();
 			FileOutputStream fOut = openFileOutput("export.pdf", Context.MODE_WORLD_READABLE);
