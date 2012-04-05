@@ -17,10 +17,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="ConvertToPDFActivity"></activity>
+        <activity android:name=".ConvertToPDFActivity"></activity>
         
         <activity 
-            android:name="ClassListActivity">
+            android:name=".CourseOverviewActivity">
         </activity>
         <activity 
             android:name=".StudentOverviewActivity">

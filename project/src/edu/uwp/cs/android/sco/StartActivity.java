@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class StartActivity extends Activity implements View.OnClickListener{
     /** Called when the activity is first created. */
-	Button navToClassList, navToConvertToPDF, navToStudentEdit, navToStudentOverview;
+	Button navToConvertToPDF, navToStudentEdit, navToStudentOverview, navToCourseOverview;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -16,26 +16,22 @@ public class StartActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.start);
         
         // find buttons
-        navToClassList = (Button) findViewById(R.id.navToClassList);
         navToConvertToPDF = (Button) findViewById(R.id.navToConvertToPDF);
         navToStudentEdit = (Button) findViewById(R.id.navToStudentEdit);
         navToStudentOverview = (Button) findViewById(R.id.navToStudentOverview);
+        navToCourseOverview = (Button) findViewById(R.id.navToCourseOverview);
         
         // set OnClickListeners
-        navToClassList.setOnClickListener(this);
         navToConvertToPDF.setOnClickListener(this);
         navToStudentEdit.setOnClickListener(this);
         navToStudentOverview.setOnClickListener(this);
+        navToCourseOverview.setOnClickListener(this);
         
     }
 
 	@Override
 	public void onClick(View v) {
 		
-		if (v == navToClassList) {
-			Intent i = new Intent(this, ClassListActivity.class);    
-	        startActivity(i);
-		}
 		if (v == navToConvertToPDF) {
 			Intent i = new Intent(this, ConvertToPDFActivity.class);    
 	        startActivity(i);
@@ -46,6 +42,10 @@ public class StartActivity extends Activity implements View.OnClickListener{
 		}
 		if (v == navToStudentOverview) {
 			Intent i = new Intent(this, StudentOverviewActivity.class);    
+	        startActivity(i);
+		}
+		if (v == navToCourseOverview) {
+			Intent i = new Intent(this, CourseOverviewActivity.class);    
 	        startActivity(i);
 		}
 		

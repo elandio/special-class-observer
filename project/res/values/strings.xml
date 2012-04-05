@@ -19,9 +19,12 @@
     <string name="add_class_newClassName"> Enter new class name </string>
     
     <!-- add student -->
-     <string name="add_student_studentFName"> First name: </string>
+    <string name="add_student_studentFName"> First name: </string>
     <string name="add_student_studentLName"> Last name: </string>
     
+    <!-- add course -->
+    <string name="add_course_name">Course Name: </string>
+    <string name="add_course_category">Category: </string>
     
     <!-- convert_to_pdf -->
     <string name="convert_to_pdf_createFor">Creating PDF file for student: </string>
