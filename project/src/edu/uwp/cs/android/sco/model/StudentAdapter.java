@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+@Deprecated
 public class StudentAdapter extends ArrayAdapter<Disability>{
 
     Context context;

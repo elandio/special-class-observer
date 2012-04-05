@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+@Deprecated
 public class SQLiteOpener extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "sco.db";

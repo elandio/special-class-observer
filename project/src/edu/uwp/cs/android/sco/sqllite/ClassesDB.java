@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import edu.uwp.cs.android.sco.model.StudentList;
 
+@Deprecated
 public class ClassesDB {
 
     // Database fields

@@ -8,6 +8,7 @@ package edu.uwp.cs.android.sco.model;
  * @author M.Duettmann
  *
  */
+@Deprecated
 public class ChecklistEntry {
     
     String name;

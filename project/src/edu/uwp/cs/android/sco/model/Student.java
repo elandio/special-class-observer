@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * 
  * @author M.Duettmann
  */
+@Deprecated
 public class Student implements Serializable {
 
 	private static final long serialVersionUID = -6081462500274581471L;

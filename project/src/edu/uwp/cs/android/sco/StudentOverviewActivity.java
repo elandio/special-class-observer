@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
@@ -130,6 +131,14 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 studentDao.insert(student);
                 student.addDefaultDisabilities();
                 Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
+                
+                // TEST AREA
+                Course course = new Course(null, "Discrete Structures", "Math");
+                daoSession.getCourseDao().insert(course);
+                
+                student.addCourse(course);
+                studentDao.update(student);
+                // TEST AREA END
 
                 cursor.requery();
                 addStudentDialog.dismiss();

@@ -1,5 +1,6 @@
 package edu.uwp.cs.android.sco.model;
 
+@Deprecated
 public class Disability {
 	public String name;
 	public int rating;
