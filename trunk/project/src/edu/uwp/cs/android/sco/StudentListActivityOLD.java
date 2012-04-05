@@ -23,6 +23,7 @@ import edu.uwp.cs.android.sco.sqllite.StudentsDB;
  * @author M.Duettmann
  *
  */
+@Deprecated
 public class StudentListActivityOLD extends Activity {
     
     private ListView lView;
