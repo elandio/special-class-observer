@@ -13,13 +13,6 @@
         android:textSize="35dp" />
 
     <Button
-        android:id="@+id/navToClassList"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Open ClassListActivity" />
-
-    <Button
         android:id="@+id/navToConvertToPDF"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -40,4 +33,11 @@
         android:layout_marginBottom="10dp"
         android:text="Open StudentOverviewActivity" />
 
+    <Button
+        android:id="@+id/navToCourseOverview"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Open CourseOverviewActivity" />
+    
 </LinearLayout>
