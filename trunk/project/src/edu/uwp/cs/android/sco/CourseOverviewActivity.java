@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -30,21 +31,16 @@ import edu.uwp.cs.android.sco.view.MyListAdapter;
 public class CourseOverviewActivity extends ListActivity implements View.OnClickListener {
 
     // database management
+	private DevOpenHelper helper;
     private SQLiteDatabase db;
-
     private DaoMaster daoMaster;
-
     private DaoSession daoSession;
-
     private CourseDao courseDao;
-
     private Cursor cursor;
-
     private MyListAdapter adapter;
 
     // buttons
     private Button buttonAddCourse, buttonResetSearch;
-
     private EditText etSearchCourse;
     
     private static final int OPEN_ID = Menu.FIRST;
@@ -53,33 +49,88 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.course_overview);
+        Log.i("CourseOverviewActivity", "onCreate() called");
+        openCourseOverview();
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	Log.i("CourseOverviewActivity", "onResume() called");
+//    	openCourseOverview();
+    }
+    
+    @Override
+    protected void onPause () {
+    	super.onPause();
+    	Log.i("CourseOverviewActivity", "onPause() called");
+    	daoMaster = null;
+        daoSession = null;
+        courseDao = null;
+    	cursor.close();
+    	db.close();
+    	helper.close();
+    }
+    
+    @Override
+    protected void onStop () {
+    	super.onStop();
+    	Log.i("CourseOverviewActivity", "onStop() called");
+    	daoMaster = null;
+        daoSession = null;
+        courseDao = null;
+    	cursor.close();
+    	db.close();
+    	helper.close();
+    }
 
-        // TODO refactor "student-db" in all classes to "sco-db"
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+    @Override
+    protected void onRestart() {
+    	super.onRestart();
+    	Log.i("CourseOverviewActivity", "onRestart() called");
+    	openCourseOverview();
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	Log.i("CourseOverviewActivity", "onDestroy() called");
+    	daoMaster = null;
+        daoSession = null;
+        courseDao = null;
+    	cursor.close();
+    	db.close();
+    	helper.close();
+    }
+    
+    private void openCourseOverview() {
+    	Log.i("CourseOverviewActivity", "openCourseOverview() called");
+    	setContentView(R.layout.course_overview);
+    	
+    	// TODO refactor "student-db" in all classes to "sco-db"
+        helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
         courseDao = daoSession.getCourseDao();
-
+        
         String textColumn = CourseDao.Properties.Name.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         cursor = db.query(courseDao.getTablename(), courseDao.getAllColumns(), null, null, null, null, orderBy);
         String[] from = { textColumn, CourseDao.Properties.Category.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
-
+        
         adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
         setListAdapter(adapter);
-
-        etSearchCourse = (EditText) findViewById(R.id.et_searchCourse);
-
-        // initialize buttons and set onclicklisteners
+        
+        // initialize buttons and set listeners
         buttonAddCourse = (Button) findViewById(R.id.course_overview_bAddCourse);
         buttonAddCourse.setOnClickListener(this);
 
         buttonResetSearch = (Button) findViewById(R.id.course_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
 
+        etSearchCourse = (EditText) findViewById(R.id.et_searchCourse);
         etSearchCourse.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -91,13 +142,11 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
-
             }
         });
 
@@ -130,39 +179,32 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         saveButton.setEnabled(false);
 
         courseNameText.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void afterTextChanged(Editable s) {
                 saveButton.setEnabled(validateAddCourseInput(addCourseDialog, courseNameText, courseCategoryText));
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
 
         courseCategoryText.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void afterTextChanged(Editable s) {
                 saveButton.setEnabled(validateAddCourseInput(addCourseDialog, courseNameText, courseCategoryText));
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
         });
 
         saveButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 String courseName = courseNameText.getText().toString();
@@ -177,21 +219,12 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
                 Log.d("SCO-Project", "Inserted new course: [" + course.getId() + "] " + courseName + " " + courseCategory);
 
-                // TEST AREA
-                //                Course course = new Course(null, "Discrete Structures", "Math");
-                //                daoSession.getCourseDao().insert(course);
-                //                
-                //                student.addCourse(course);
-                //                courseDao.update(student);
-                // TEST AREA END
-
                 cursor.requery();
                 addCourseDialog.dismiss();
             }
         });
 
         cancelButton.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 addCourseDialog.dismiss();
@@ -206,17 +239,17 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         return false;
     }
 
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long courseId) {
+        Intent studentOverview = new Intent(this, StudentOverviewActivity.class);
+        studentOverview.putExtra("courseId", courseId);
+        Log.i("CourseOverviewActivity", "--> CLICKED onListItemClick called Intent");
+        startActivity(studentOverview);
+    }
+
     /**
      * DELETE COURSE AND RELATIONS
      */
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long courseId) {
-        Course course = courseDao.load(courseId);
-
-        // open dialog for delete confirmation
-        openDeleteDialog(course);
-    }
-
     protected void openDeleteDialog(final Course course) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(CourseOverviewActivity.this);
         builder.setMessage("Are you sure you want to delete the course " + course.getName() + " (category: " + course.getCategory() + ")?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -261,4 +294,5 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         }
         return super.onContextItemSelected(item);
     }
+
 }
