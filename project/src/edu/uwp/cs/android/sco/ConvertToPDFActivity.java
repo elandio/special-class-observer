@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -41,14 +42,14 @@ public class ConvertToPDFActivity extends Activity {
     private Cursor cursor;
     
     // buttons
-    Button sendMail;
+    private Button sendMail;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.convert_to_pdf);
-
+        
         sendMail = (Button) findViewById(R.id.sendMail);
 
         DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
@@ -57,16 +58,13 @@ public class ConvertToPDFActivity extends Activity {
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
-	    Student student = studentDao.load(1l);
-	    
-	    // TEMP CREATING STUDENT
-		if (student == null) {
-			// student is not in database - create a test student
-			student = new Student(1l, "Test", "Driver");
-			studentDao.insert(student);
-			student.addDefaultDisabilities();
-			studentDao.update(student);
-		}
+        long studentId = getIntent().getLongExtra("studentID", -1l);
+        
+        if(studentId == -1l){
+           Log.e("OH MY GOD:", "WE HAVE A PROBLEM!!!!!!"); 
+        }
+        
+	    Student student = studentDao.load(studentId);
         
         createPDF(student);
         openPDF();

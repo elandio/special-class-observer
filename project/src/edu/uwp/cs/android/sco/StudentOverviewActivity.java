@@ -4,18 +4,24 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
@@ -31,6 +37,11 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private DaoSession daoSession;
     private StudentDao studentDao;
     private Cursor cursor;
+    
+    private static final int OPEN_ID = Menu.FIRST;
+    private static final int EDIT_ID = Menu.FIRST +1;
+    private static final int PRINT_ID = Menu.FIRST +2;
+    private static final int DELETE_ID = Menu.FIRST +3;   
     
     // buttons
     private Button buttonAddStudent, buttonResetSearch;
@@ -64,6 +75,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
+        
+        registerForContextMenu(getListView());
     }
 
 	@Override
@@ -193,6 +206,41 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	       });
     	AlertDialog alert = builder.create();
     	alert.show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);       
+        menu.add(0, OPEN_ID, 0, "Open");
+        menu.add(0, EDIT_ID, 0, "Edit");
+        menu.add(0, PRINT_ID, 0, "Print PDF");
+        menu.add(0, DELETE_ID, 0, "Delete");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        Student student = studentDao.load(info.id);
+        switch(item.getItemId()) {            
+            case OPEN_ID:
+                //TODO: implement open students profil
+                break;
+            case EDIT_ID:
+                //TODO: implement edit students profil
+                break;
+            case PRINT_ID:
+                Intent i = new Intent(this, ConvertToPDFActivity.class);
+                i.putExtra("studentId", info.id);
+                startActivity(i);
+               break;    
+            case DELETE_ID:
+                
+                
+                openDeleteDialog(student);
+                break;
+            default:
+        }
+        return super.onContextItemSelected(item);
     }
 
 }
