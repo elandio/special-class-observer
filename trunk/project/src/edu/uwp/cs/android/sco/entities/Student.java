@@ -152,6 +152,7 @@ public class Student {
     }
     
     public void addDisability(Disability disability) {
+    	disabilities = getDisabilities();
         disabilities.add(disability);
     }
     
@@ -166,6 +167,7 @@ public class Student {
         addDisability("Disability1", "Info1", "General", id);
         addDisability("Disability2", "Info2", "General", id);
         addDisability("Disability3", "Info3", "General", id);
+        addDisability("Disability4", "Info4", "General", id);
     }
     
     public void deleteRelation(long studentId) {
