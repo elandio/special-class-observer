@@ -165,8 +165,14 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
      * DELETE COURSE AND RELATIONS
      */
     @Override
-    protected void onListItemClick(ListView l, View v, int position, final long courseId) {
-    	final Course course = courseDao.load(courseId);
+    protected void onListItemClick(ListView l, View v, int position, long courseId) {
+    	Course course = courseDao.load(courseId);
+    	
+    	// open dialog for delete confirmation
+    	openDeleteDialog(course);
+    }
+    
+    protected void openDeleteDialog (final Course course) {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(CourseOverviewActivity.this);
     	builder.setMessage("Are you sure you want to delete the course " 
     						+ course.getName() + " (category: " + course.getCategory() + ")?")
@@ -175,10 +181,10 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     	           public void onClick(DialogInterface dialog, int id) {
     	        	   // TODO CLEAN RELATIONSHIP
     	               //course.deleteRelation(courseId);
-    	               courseDao.deleteByKey(courseId);
+    	               courseDao.deleteByKey(course.getId());
     	               cursor.requery();
     	               
-    	               Log.d("SCO-Project", "Deleted course, courseId: " + courseId);
+    	               Log.d("SCO-Project", "Deleted course, courseId: " + course.getId());
     	           }
     	       })
     	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
