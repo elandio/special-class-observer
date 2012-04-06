@@ -5,22 +5,15 @@
     <string name="app_name">Student Classroom Observer</string>
     <string name="cancel"> Cancel </string>
     <string name="save"> Save </string>
-    
-    <!-- class_list -->
-	<string name="class_list_addClass">add class</string>
 	
 	<!-- student_list -->
 	<string name="student_list_addStudent">add student</string>
-    <string name="searchStudents">Search Studentes</string>
+    <string name="searchStudents">Search Students</string>
     <string name="searchClasses">Search CLasses</string>
     
-    <!-- add class -->
-    <string name="add_class_className"> New class name: </string>
-    <string name="add_class_newClassName"> Enter new class name </string>
-    
     <!-- add student -->
-    <string name="add_student_studentFName"> First name: </string>
-    <string name="add_student_studentLName"> Last name: </string>
+    <string name="add_student_studentFName">First name: </string>
+    <string name="add_student_studentLName">Last name: </string>
     
     <!-- add course -->
     <string name="add_course_name">Course Name: </string>
