@@ -34,7 +34,7 @@ public class StudentProfileActivity extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_student);
+        setContentView(R.layout.student_profile_edit);
         
         DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
         db = helper.getWritableDatabase();
@@ -62,10 +62,10 @@ public class StudentProfileActivity extends ListActivity {
 			i++;
 		}
 	    StudentAdapter adapter = new StudentAdapter(this,
-        R.layout.row_student, disabilities);
+        R.layout.student_profile_row, disabilities);
 	    
 	    ListView listView = getListView();
-	    View header = (View)getLayoutInflater().inflate(R.layout.student_header, null);
+	    View header = (View)getLayoutInflater().inflate(R.layout.student_profile_header, null);
         listView.addHeaderView(header);
         TextView tvheader = (TextView)findViewById(R.id.tvhead);
 	    tvheader.setText(student.getFName() + " " +student.getLName());

@@ -119,6 +119,19 @@ public class Course {
     }
 
     // KEEP METHODS - put your custom methods here
+    
+    @Override
+    public String toString() {
+        return "ID: " + id + ", NAME: " + name + ", CATEGORY: " + category;
+    }
+    
+    public void addStudent(Student student) {
+    	RelationCourseStudent rel = new RelationCourseStudent(student.getId(), id);
+    	students = getStudents();
+    	daoSession.insert(rel);
+    	students.add(rel);
+    }
+    
     // KEEP METHODS END
 
 }

@@ -144,13 +144,6 @@ public class Student {
         return "ID: " + id + ", NAME: " + fName + " " + lName + "\n DISABILITIES: " + disabilities;
     }
     
-    public void addCourse(Course course) {
-    	RelationCourseStudent rel = new RelationCourseStudent(id, course.getId());
-    	courses = getCourses();
-    	daoSession.insert(rel);
-    	courses.add(rel);
-    }
-    
     public void addDisability(Disability disability) {
     	disabilities = getDisabilities();
         disabilities.add(disability);

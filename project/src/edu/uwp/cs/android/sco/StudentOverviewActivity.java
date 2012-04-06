@@ -25,6 +25,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
+import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
@@ -32,6 +33,7 @@ import edu.uwp.cs.android.sco.entities.StudentDao;
 public class StudentOverviewActivity extends ListActivity implements View.OnClickListener{
 	
 	// database management
+	private DevOpenHelper helper;
     private SQLiteDatabase db;
     private DaoMaster daoMaster;
     private DaoSession daoSession;
@@ -50,9 +52,75 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("StudentOverviewActivity", "onCreate() called");
+        long courseId = getIntent().getLongExtra("courseId", -1l); // TODO check if it can be placed in openStudentOverview method
+    	openStudentOverview(courseId);
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	Log.i("StudentOverviewActivity", "onResume() called");
+//    	long courseId = getIntent().getLongExtra("courseId", -1l);
+//    	openStudentOverview(courseId);
+    	
+    }
+    
+    @Override
+    protected void onPause () {
+    	super.onPause();
+    	Log.i("StudentOverviewActivity", "onPause() called");
+    	daoMaster = null;
+        daoSession = null;
+        studentDao = null;
+    	cursor.deactivate();
+    	db.close();
+    	helper.close();
+    }
+    
+    @Override
+    protected void onStop () {
+    	super.onStop();
+    	Log.i("StudentOverviewActivity", "onStop() called");
+    	daoMaster = null;
+        daoSession = null;
+        studentDao = null;
+    	cursor.close();
+    	db.close();
+    	helper.close();
+    }
+
+    @Override
+    protected void onRestart() {
+    	super.onRestart();
+    	Log.i("StudentOverviewActivity", "onRestart() called");
+    	long courseId = getIntent().getLongExtra("courseId", -1l);
+    	openStudentOverview(courseId);
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	Log.i("StudentOverviewActivity", "onDestroy() called");
+    	daoMaster = null;
+        daoSession = null;
+        studentDao = null;
+    	cursor.close();
+    	db.close();
+    	helper.close();
+    }
+    
+    private void openStudentOverview(long courseId) {
+    	
+    	if (courseId == -1l) {
+    		System.out.println("display all students");
+    	} else {
+    		System.out.println("display student " + courseId);
+    	}
+        
         setContentView(R.layout.student_overview);
 
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+        helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
@@ -146,10 +214,16 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
                 
                 // TEST AREA
-                Course course = new Course(null, "Discrete Structures", "Math");
-                daoSession.getCourseDao().insert(course);
+                Course course = daoSession.getCourseDao().load(1l);
                 
-                student.addCourse(course);
+                // INSERT TEMP DATA
+                if (course == null) {
+                	course = new Course(1l, "TestCourse", "Math");
+                	daoSession.getCourseDao().insert(course);
+                }
+                
+                course.addStudent(student);
+                
                 studentDao.update(student);
                 // TEST AREA END
 
@@ -174,9 +248,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	return false;
     }
     
-    /**
-     * DELETE STUDENT AND RELATIONS
-     */
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
     	Student student = studentDao.load(studentId);
@@ -184,7 +255,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	// open dialog for delete confirmation
     	openDeleteDialog(student);
     }
-    
+
+    /**
+     * DELETE STUDENT AND RELATIONS
+     */
     protected void openDeleteDialog(final Student student) {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverviewActivity.this);
     	builder.setMessage("Are you sure you want to delete student " 
