@@ -1,6 +1,5 @@
 package edu.uwp.cs.android.sco;
 
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -48,7 +47,8 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
     private EditText etSearchCourse;
     
-    private static final int DELETE_ID = Menu.FIRST;
+    private static final int OPEN_ID = Menu.FIRST;
+    private static final int DELETE_ID = Menu.FIRST +1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +100,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
             }
         });
-        
+
         registerForContextMenu(getListView());
     }
 
@@ -242,17 +242,22 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, OPEN_ID, 0, "Open");
         menu.add(0, DELETE_ID, 0, "Delete");
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
+            case OPEN_ID:
+                //TODO: implement open class
+                break;
             case DELETE_ID:
                 AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
                 Course course = courseDao.load(info.id);
                 openDeleteDialog(course);
-                return true;
+                break;
+            default:
         }
         return super.onContextItemSelected(item);
     }
