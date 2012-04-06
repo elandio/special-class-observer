@@ -1,6 +1,7 @@
 package edu.uwp.cs.android.sco.model;
 
 import edu.uwp.cs.android.sco.R;
+import edu.uwp.cs.android.sco.entities.Disability;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -47,9 +48,9 @@ public class StudentAdapter extends ArrayAdapter<Disability>{
         }
        
         Disability disability = dis[position];
-        holder.tvName.setText(disability.name);
-        holder.ratingBar.setRating(disability.rating);
-        holder.tvInfo.setText(disability.info);
+        holder.tvName.setText(disability.getName());
+        holder.ratingBar.setRating(disability.getRating());
+        holder.tvInfo.setText(disability.getInfo());
        
         return row;
     }

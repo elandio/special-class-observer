@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,10 +25,22 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import edu.uwp.cs.android.sco.model.Student;
+import edu.uwp.cs.android.sco.entities.DaoMaster;
+import edu.uwp.cs.android.sco.entities.DaoSession;
+import edu.uwp.cs.android.sco.entities.Student;
+import edu.uwp.cs.android.sco.entities.StudentDao;
+import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 
 public class ConvertToPDFActivity extends Activity {
-
+	
+	// database management
+    private SQLiteDatabase db;
+    private DaoMaster daoMaster;
+    private DaoSession daoSession;
+    private StudentDao studentDao;
+    private Cursor cursor;
+    
+    // buttons
     Button sendMail;
 
     /** Called when the activity is first created. */
@@ -37,12 +51,24 @@ public class ConvertToPDFActivity extends Activity {
 
         sendMail = (Button) findViewById(R.id.sendMail);
 
-        Student stud1 = new Student("Peter", "Maffay", "Test");
-        stud1.addDisability("Disability 1", "Info 1");
-        stud1.addDisability("Disability 2", "Info 2");
-        stud1.addDisability("Disability 3", "Info 3");
-
-        createPDF(stud1);
+        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+        db = helper.getWritableDatabase();
+        daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+        studentDao = daoSession.getStudentDao();
+        
+	    Student student = studentDao.load(1l);
+	    
+	    // TEMP CREATING STUDENT
+		if (student == null) {
+			// student is not in database - create a test student
+			student = new Student(1l, "Test", "Driver");
+			studentDao.insert(student);
+			student.addDefaultDisabilities();
+			studentDao.update(student);
+		}
+        
+        createPDF(student);
         openPDF();
 
         sendMail.setOnClickListener(new OnClickListener() {

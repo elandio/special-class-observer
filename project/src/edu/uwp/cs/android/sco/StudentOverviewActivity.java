@@ -79,7 +79,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 	public void openAddStudentDialog() {
 		final Dialog addStudentDialog = new Dialog(StudentOverviewActivity.this);
         
-        addStudentDialog.setContentView(R.layout.dialog_add_student);
+        addStudentDialog.setContentView(R.layout.student_dialog_add);
         addStudentDialog.setTitle("Add a student");
         addStudentDialog.setCancelable(true);
         addStudentDialog.show();

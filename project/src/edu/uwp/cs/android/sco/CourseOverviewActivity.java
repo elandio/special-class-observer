@@ -79,7 +79,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 	public void openAddCourseDialog() {
 		final Dialog addCourseDialog = new Dialog(CourseOverviewActivity.this);
         
-        addCourseDialog.setContentView(R.layout.dialog_add_course);
+        addCourseDialog.setContentView(R.layout.course_dialog_add);
         addCourseDialog.setTitle("Add a course");
         addCourseDialog.setCancelable(true);
         addCourseDialog.show();
