@@ -165,19 +165,25 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
      * DELETE STUDENT AND RELATIONS
      */
     @Override
-    protected void onListItemClick(ListView l, View v, int position, final long studentId) {
-    	final Student student = studentDao.load(studentId);
+    protected void onListItemClick(ListView l, View v, int position, long studentId) {
+    	Student student = studentDao.load(studentId);
+    	
+    	// open dialog for delete confirmation
+    	openDeleteDialog(student);
+    }
+    
+    protected void openDeleteDialog(final Student student) {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverviewActivity.this);
     	builder.setMessage("Are you sure you want to delete student " 
     						+ student.getFName() + " " + student.getLName() + "?")
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
-    	               student.deleteRelation(studentId);
-    	               studentDao.deleteByKey(studentId);
+    	               student.deleteRelation(student.getId());
+    	               studentDao.deleteByKey(student.getId());
     	               cursor.requery();
     	               
-    	               Log.d("SCO-Project", "Deleted student, studentId: " + studentId);
+    	               Log.d("SCO-Project", "Deleted student, studentId: " + student.getId());
     	           }
     	       })
     	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
