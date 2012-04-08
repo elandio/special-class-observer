@@ -59,7 +59,7 @@ public class ConvertToPDFActivity extends Activity {
         openPdfButton = (Button) findViewById(R.id.convert_to_pdf_openPdf);
         doneButton = (Button) findViewById(R.id.convert_to_pdf_done);
 
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();

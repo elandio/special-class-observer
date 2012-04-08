@@ -122,30 +122,31 @@ public class Course {
     
     @Override
     public String toString() {
-        return "ID: " + id + ", NAME: " + name + ", CATEGORY: " + category;
+        return "ID: " + id + ", NAME: " + name + ", CATEGORY: " + category + ", RELATION TO STUDENT: " + students;
     }
     
     public void addStudent(Student student) {
     	RelationCourseStudent rel = new RelationCourseStudent(null, student.getId(), id);
     	students = getStudents();
-    	daoSession.insert(rel);
     	students.add(rel);
-    	System.out.println("AFTER ADDING: " + students);
+    	daoSession.insert(rel);
     }
     
-    public void deleteRelation() {
+    public void deleteRelation(List<Long> studentRelations) {
         students = getStudents();
-        System.out.println("courseId: " + this.id + " | RELATION TO STUDENT: " + students);
         for (int i = 0; i < students.size(); i++) {
             RelationCourseStudent rel = students.get(i); 
             
-            if (rel.getCourseId() == this.id) {
-            	System.out.println("DELETE RELATION: st_id" + rel.getStudentId() + " co_id" + rel.getCourseId());
+            if (rel.getCourseId() == id) {
                 daoSession.delete(rel);
                 students.remove(rel);
                 i--;
             }
         }
+        
+        for (Long key : studentRelations) {
+        	daoSession.getRelationCourseStudentDao().deleteByKey(key);
+		}
     }
     
     // KEEP METHODS END
