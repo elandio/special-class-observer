@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <TextView
+    <!--  <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/convert_to_pdf_createFor" />
+        android:text="@string/convert_to_pdf_createFor" />-->
 
     <Button
-        android:id="@+id/sendMail"
-        android:layout_width="wrap_content"
+        android:id="@+id/convert_to_pdf_sendMail"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Send Mail!" />
+        android:text="@string/convert_to_pdf_mail" />
+
+    <Button
+        android:id="@+id/convert_to_pdf_openPdf"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/convert_to_pdf_open" />
+    
+    <Button
+        android:id="@+id/convert_to_pdf_done"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/convert_to_pdf_done" />
 
 </LinearLayout>

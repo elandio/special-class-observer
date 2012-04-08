@@ -124,7 +124,9 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
         buttonResetSearch = (Button) findViewById(R.id.course_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
-
+        
+        getListView().setTextFilterEnabled(true);
+        
         etSearchCourse = (EditText) findViewById(R.id.et_searchCourse);
         etSearchCourse.addTextChangedListener(new TextWatcher() {
 
