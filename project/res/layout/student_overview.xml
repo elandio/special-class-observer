@@ -29,6 +29,11 @@
 			android:text="Reset Search"
 			android:id="@+id/student_overview_bResetSearch"
 			android:onClick="onMyButtonClick"></Button>
+		<Button
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:text="Back to Course List"
+			android:id="@+id/student_overview_bBack"></Button>
 	</LinearLayout>
 	<ListView
 		android:layout_height="wrap_content"

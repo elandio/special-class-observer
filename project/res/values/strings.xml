@@ -21,5 +21,8 @@
     
     <!-- convert_to_pdf -->
     <string name="convert_to_pdf_createFor">Creating PDF file for student: </string>
+    <string name="convert_to_pdf_mail">Send via Mail </string>
+    <string name="convert_to_pdf_open">Open PDF </string>
+    <string name="convert_to_pdf_done">Done </string>
 
 </resources>

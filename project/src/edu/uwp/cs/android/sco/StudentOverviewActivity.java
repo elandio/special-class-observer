@@ -47,7 +47,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private static final int DELETE_ID = Menu.FIRST +3;   
     
     // buttons
-    private Button buttonAddStudent, buttonResetSearch;
+    private Button buttonAddStudent, buttonResetSearch, buttonBack;
     private EditText etSearchStudent;
     
     @Override
@@ -147,6 +147,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
+        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
+        buttonBack.setOnClickListener(this);
+        
         registerForContextMenu(getListView());
     }
     
@@ -172,6 +175,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
+        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
+        buttonBack.setOnClickListener(this);
+        
         registerForContextMenu(getListView());
     }
 
@@ -181,8 +187,12 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 			openAddStudentDialog();
 		}
 		if (v == buttonResetSearch) {
-			etSearchStudent.setText("");
-		}
+            etSearchStudent.setText("");
+        }
+        if (v == buttonBack) {
+            Intent i = new Intent(this, CourseOverviewActivity.class);    
+            startActivity(i);
+        }
 	}
 	
 	public void openAddStudentDialog() {
@@ -333,6 +343,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
             case PRINT_ID:
                 Intent i = new Intent(this, ConvertToPDFActivity.class);
                 i.putExtra("studentId", info.id);
+                i.putExtra("courseId", courseId);
                 startActivity(i);
                break;    
             case DELETE_ID:

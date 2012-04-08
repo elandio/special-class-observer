@@ -1,14 +1,5 @@
 package edu.uwp.cs.android.sco;
 
-import java.util.Arrays;
-
-import edu.uwp.cs.android.sco.entities.DaoMaster;
-import edu.uwp.cs.android.sco.entities.DaoSession;
-import edu.uwp.cs.android.sco.entities.Disability;
-import edu.uwp.cs.android.sco.entities.Student;
-import edu.uwp.cs.android.sco.entities.StudentDao;
-import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
-import edu.uwp.cs.android.sco.model.StudentAdapter;
 import android.app.ListActivity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,8 +9,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
+import edu.uwp.cs.android.sco.entities.DaoMaster;
+import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
+import edu.uwp.cs.android.sco.entities.DaoSession;
+import edu.uwp.cs.android.sco.entities.Disability;
+import edu.uwp.cs.android.sco.entities.Student;
+import edu.uwp.cs.android.sco.entities.StudentDao;
+import edu.uwp.cs.android.sco.view.StudentAdapter;
 
 public class StudentProfileActivity extends ListActivity {
 	
