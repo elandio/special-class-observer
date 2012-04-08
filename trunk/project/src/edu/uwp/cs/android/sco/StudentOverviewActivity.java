@@ -39,6 +39,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private DaoSession daoSession;
     private StudentDao studentDao;
     private Cursor cursor;
+    private long courseId;
     
     private static final int OPEN_ID = Menu.FIRST;
     private static final int EDIT_ID = Menu.FIRST +1;
@@ -53,16 +54,16 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("StudentOverviewActivity", "onCreate() called");
-        long courseId = getIntent().getLongExtra("courseId", -1l); // TODO check if it can be placed in openStudentOverview method
-    	openStudentOverview(courseId);
+        courseId = getIntent().getLongExtra("courseId", -1l);
+    	openStudentOverview();
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
     	Log.i("StudentOverviewActivity", "onResume() called");
-//    	long courseId = getIntent().getLongExtra("courseId", -1l);
-//    	openStudentOverview(courseId);
+//    	courseId = getIntent().getLongExtra("courseId", -1l);
+//    	openStudentOverview();
     	
     }
     
@@ -70,38 +71,32 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     protected void onPause () {
     	super.onPause();
     	Log.i("StudentOverviewActivity", "onPause() called");
-    	daoMaster = null;
-        daoSession = null;
-        studentDao = null;
-    	cursor.deactivate();
-    	db.close();
-    	helper.close();
+    	releaseAllResources();
     }
     
     @Override
     protected void onStop () {
     	super.onStop();
     	Log.i("StudentOverviewActivity", "onStop() called");
-    	daoMaster = null;
-        daoSession = null;
-        studentDao = null;
-    	cursor.close();
-    	db.close();
-    	helper.close();
+    	releaseAllResources();
     }
 
     @Override
     protected void onRestart() {
     	super.onRestart();
     	Log.i("StudentOverviewActivity", "onRestart() called");
-    	long courseId = getIntent().getLongExtra("courseId", -1l);
-    	openStudentOverview(courseId);
+    	courseId = getIntent().getLongExtra("courseId", -1l);
+    	openStudentOverview();
     }
     
     @Override
     protected void onDestroy() {
     	super.onDestroy();
     	Log.i("StudentOverviewActivity", "onDestroy() called");
+    	releaseAllResources();
+    }
+    
+    private void releaseAllResources() {
     	daoMaster = null;
         daoSession = null;
         studentDao = null;
@@ -110,25 +105,58 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	helper.close();
     }
     
-    private void openStudentOverview(long courseId) {
+    private void openStudentOverview() {
     	
-    	if (courseId == -1l) {
-    		System.out.println("display all students");
-    	} else {
-    		System.out.println("display student " + courseId);
-    	}
-        
-        setContentView(R.layout.student_overview);
-
-        helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+    	helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
+        
+    	// load view - show all students or show students  
+    	if (courseId == -1l) {
+    		// display all students
+    		System.out.println("display all students");
+    		showAllStudents();
+    	} else {
+    		// display student depending on courseId
+    		System.out.println("display student " + courseId);
+    		showCourseStudents();
+    	}
+        
+    }
+    
+    protected void showAllStudents() {		
+		setContentView(R.layout.student_overview);
 
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), null, null, null, null, orderBy);
+        String[] from = { textColumn, StudentDao.Properties.LName.columnName };
+        int[] to = { android.R.id.text1, android.R.id.text2 };
+
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        setListAdapter(adapter);
+
+        etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
+        
+        // initialize buttons and set onclicklisteners
+        buttonAddStudent = (Button) findViewById(R.id.student_overview_bAddStudent);
+        buttonAddStudent.setOnClickListener(this);
+        
+        buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
+        buttonResetSearch.setOnClickListener(this);
+        
+        registerForContextMenu(getListView());
+    }
+    
+    protected void showCourseStudents() {		
+		setContentView(R.layout.student_overview);
+
+        String textColumn = StudentDao.Properties.FName.columnName;
+        String orderBy = textColumn + " COLLATE LOCALIZED ASC";
+        String where = "_id IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
+        cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), where, null, null, null, orderBy);
         String[] from = { textColumn, StudentDao.Properties.LName.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
 
@@ -213,19 +241,19 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 student.addDefaultDisabilities();
                 Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
                 
-                // TEST AREA
-                Course course = daoSession.getCourseDao().load(1l);
-                
-                // INSERT TEMP DATA
-                if (course == null) {
-                	course = new Course(1l, "TestCourse", "Math");
-                	daoSession.getCourseDao().insert(course);
+                // if user selected a course - add course_student relation
+                if (courseId != -1l) {
+                    // insert student in current course
+                    Course course = daoSession.getCourseDao().load(courseId);
+                    
+                    if (course == null) { // TEMP FOR DEVELOPMENT
+                    	Log.e("StudentOverviewActivity", "ERROR: COURSE IS NOT INITIALIZED");
+                    }
+                    
+                    course.addStudent(student);
                 }
                 
-                course.addStudent(student);
-                
                 studentDao.update(student);
-                // TEST AREA END
 
                 cursor.requery();
                 addStudentDialog.dismiss();
@@ -308,8 +336,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 startActivity(i);
                break;    
             case DELETE_ID:
-                
-                
                 openDeleteDialog(student);
                 break;
             default:
