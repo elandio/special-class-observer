@@ -64,24 +64,14 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     protected void onPause () {
     	super.onPause();
     	Log.i("CourseOverviewActivity", "onPause() called");
-    	daoMaster = null;
-        daoSession = null;
-        courseDao = null;
-    	cursor.close();
-    	db.close();
-    	helper.close();
+    	releaseAllResources();
     }
     
     @Override
     protected void onStop () {
     	super.onStop();
     	Log.i("CourseOverviewActivity", "onStop() called");
-    	daoMaster = null;
-        daoSession = null;
-        courseDao = null;
-    	cursor.close();
-    	db.close();
-    	helper.close();
+    	releaseAllResources();
     }
 
     @Override
@@ -95,11 +85,16 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     protected void onDestroy() {
     	super.onDestroy();
     	Log.i("CourseOverviewActivity", "onDestroy() called");
-    	daoMaster = null;
+    	releaseAllResources();
+    }
+    
+    private void releaseAllResources() {
+    	adapter = null;
+    	courseDao = null;
         daoSession = null;
-        courseDao = null;
-    	cursor.close();
-    	db.close();
+        daoMaster = null;
+        cursor.close();
+        db.close();
     	helper.close();
     }
     
@@ -252,11 +247,12 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
      */
     protected void openDeleteDialog(final Course course) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(CourseOverviewActivity.this);
-        builder.setMessage("Are you sure you want to delete the course " + course.getName() + " (category: " + course.getCategory() + ")?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setMessage("Are you sure you want to delete the course " + course.getName() + " (category: " + course.getCategory() + ")?")
+        		.setCancelable(false)
+        		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
             public void onClick(DialogInterface dialog, int id) {
-                // TODO CLEAN RELATIONSHIP
-                //course.deleteRelation(courseId);
+                //course.deleteRelation(); // TODO delete Relation
                 courseDao.deleteByKey(course.getId());
                 cursor.requery();
 

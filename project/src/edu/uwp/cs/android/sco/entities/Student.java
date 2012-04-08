@@ -166,14 +166,14 @@ public class Student {
     public void deleteRelation(long studentId) {
         disabilities = getDisabilities();
         for (int i = 0; i < disabilities.size(); i++) {
-                        Disability dis = disabilities.get(i); 
-                        
-                        if (dis.getStudentId() == studentId) {
-                                daoSession.delete(dis);
-                                disabilities.remove(dis);
-                                i--;
-                        }
-                }
+            Disability dis = disabilities.get(i); 
+            
+            if (dis.getStudentId() == studentId) {
+                    daoSession.delete(dis);
+                    disabilities.remove(dis);
+                    i--;
+            }
+        }
     }
     
     // KEEP METHODS END

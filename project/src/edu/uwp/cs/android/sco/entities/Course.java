@@ -126,10 +126,26 @@ public class Course {
     }
     
     public void addStudent(Student student) {
-    	RelationCourseStudent rel = new RelationCourseStudent(student.getId(), id);
+    	RelationCourseStudent rel = new RelationCourseStudent(null, student.getId(), id);
     	students = getStudents();
     	daoSession.insert(rel);
     	students.add(rel);
+    	System.out.println("AFTER ADDING: " + students);
+    }
+    
+    public void deleteRelation() {
+        students = getStudents();
+        System.out.println("courseId: " + this.id + " | RELATION TO STUDENT: " + students);
+        for (int i = 0; i < students.size(); i++) {
+            RelationCourseStudent rel = students.get(i); 
+            
+            if (rel.getCourseId() == this.id) {
+            	System.out.println("DELETE RELATION: st_id" + rel.getStudentId() + " co_id" + rel.getCourseId());
+                daoSession.delete(rel);
+                students.remove(rel);
+                i--;
+            }
+        }
     }
     
     // KEEP METHODS END
