@@ -3,15 +3,10 @@
  */
 package edu.uwp.cs.android.sco.view;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.SimpleCursorAdapter;
 
 /**

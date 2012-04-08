@@ -29,6 +29,7 @@ import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
+import edu.uwp.cs.android.sco.view.MyListAdapter;
 
 public class StudentOverviewActivity extends ListActivity implements View.OnClickListener{
 	
@@ -55,7 +56,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         Log.i("StudentOverviewActivity", "onCreate() called");
         courseId = getIntent().getLongExtra("courseId", -1l);
-    	openStudentOverview();
+//    	openStudentOverview();
     }
     
     @Override
@@ -63,7 +64,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	super.onResume();
     	Log.i("StudentOverviewActivity", "onResume() called");
 //    	courseId = getIntent().getLongExtra("courseId", -1l);
-//    	openStudentOverview();
+    	openStudentOverview();
     	
     }
     
@@ -163,7 +164,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String[] from = { textColumn, StudentDao.Properties.LName.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
 
-        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+//        SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        MyListAdapter adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
@@ -190,8 +192,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
             etSearchStudent.setText("");
         }
         if (v == buttonBack) {
-            Intent i = new Intent(this, CourseOverviewActivity.class);    
-            startActivity(i);
+            finish();
+//            Intent i = new Intent(this, CourseOverviewActivity.class);    
+//            startActivity(i);
         }
 	}
 	
