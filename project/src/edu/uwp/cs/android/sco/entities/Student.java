@@ -152,8 +152,8 @@ public class Student {
     public void addDisability(String name, String info, String category,  long studentId) {
         Disability dis = new Disability(null, name, info, 0, category, id);
         disabilities = getDisabilities();
-        daoSession.insert(dis);
         disabilities.add(dis);
+        daoSession.insert(dis);
     }
     
     public void addDefaultDisabilities() {
@@ -163,17 +163,21 @@ public class Student {
         addDisability("Disability4", "Info4", "General", id);
     }
     
-    public void deleteRelation(long studentId) {
+    public void deleteRelation(List<Long> courseRelations) {
         disabilities = getDisabilities();
         for (int i = 0; i < disabilities.size(); i++) {
             Disability dis = disabilities.get(i); 
             
-            if (dis.getStudentId() == studentId) {
-                    daoSession.delete(dis);
-                    disabilities.remove(dis);
-                    i--;
+            if (dis.getStudentId() == id) {
+                daoSession.delete(dis);
+                disabilities.remove(dis);
+                i--;
             }
         }
+        
+        for (Long key : courseRelations) {
+        	daoSession.getRelationCourseStudentDao().deleteByKey(key);
+		}        
     }
     
     // KEEP METHODS END

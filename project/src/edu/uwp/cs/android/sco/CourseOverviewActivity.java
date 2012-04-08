@@ -1,5 +1,8 @@
 package edu.uwp.cs.android.sco;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -24,6 +27,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
+import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.view.MyListAdapter;
@@ -102,8 +106,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     	Log.i("CourseOverviewActivity", "openCourseOverview() called");
     	setContentView(R.layout.course_overview);
     	
-    	// TODO refactor "student-db" in all classes to "sco-db"
-        helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+        helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
@@ -138,12 +141,10 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -247,27 +248,38 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     /**
      * DELETE COURSE AND RELATIONS
      */
-    protected void openDeleteDialog(final Course course) {
+    protected void openDeleteDialog(long courseId) {
+    	final Course course = courseDao.load(courseId);
         final AlertDialog.Builder builder = new AlertDialog.Builder(CourseOverviewActivity.this);
-        builder.setMessage("Are you sure you want to delete the course " + course.getName() + " (category: " + course.getCategory() + ")?")
+        builder.setMessage("Are you sure you want to delete the course " 
+        					+ course.getName() + " (category: " + course.getCategory() + ")?")
         		.setCancelable(false)
         		.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int id) {
-                //course.deleteRelation(); // TODO delete Relation
-                courseDao.deleteByKey(course.getId());
-                cursor.requery();
-
-                Log.d("SCO-Project", "Deleted course, courseId: " + course.getId());
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
+		            public void onClick(DialogInterface dialog, int id) {
+		                course.deleteRelation(getStudentRelations(course.getId()));
+		                courseDao.deleteByKey(course.getId());
+		                cursor.requery();
+		                Log.d("CourseOverviewActivity", "Deleted course and relations, courseId: " + course.getId());
+		            }
+        		}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+		            public void onClick(DialogInterface dialog, int id) {
+		                dialog.cancel();
+		            }
+        		});
         AlertDialog alert = builder.create();
         alert.show();
+    }
+    
+    private List<Long> getStudentRelations(long courseId) {
+    	RelationCourseStudentDao relDao = daoSession.getRelationCourseStudentDao();
+    	String where = "COURSE_ID = " + courseId;
+        Cursor mCursor = db.query(relDao.getTablename(), relDao.getAllColumns(), where, null, null, null, null);
+        
+        List<Long> relationPKeys = new ArrayList<Long>();
+        for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
+        	relationPKeys.add(mCursor.getLong(0));
+        }
+        return relationPKeys;
     }
 
     @Override
@@ -284,11 +296,11 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
                 //TODO: implement open class
                 break;
             case DELETE_ID:
-                AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-                Course course = courseDao.load(info.id);
-                openDeleteDialog(course);
+                AdapterContextMenuInfo current = (AdapterContextMenuInfo) item.getMenuInfo();
+                openDeleteDialog(current.id);
                 break;
             default:
+            	Log.e("CourseOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");
         }
         return super.onContextItemSelected(item);
     }

@@ -33,7 +33,7 @@ public class StudentProfileActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_profile_edit);
         
-        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "student-db", null);
+        DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();
         daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
