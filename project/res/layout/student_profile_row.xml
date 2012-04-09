@@ -7,7 +7,7 @@
         android:layout_width="fill_parent">
 
         <TextView
-            android:id="@+id/tvattribute"
+            android:id="@+id/tvDisName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left" />
@@ -24,7 +24,7 @@
     
     <TableRow >
         <TextView 
-            android:id="@+id/tvinfo"
+            android:id="@+id/tvDisInfo"
             android:layout_width="wrap_content"/>
     </TableRow>
 </TableLayout>
