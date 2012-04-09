@@ -1,5 +1,8 @@
 package edu.uwp.cs.android.sco;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -24,6 +27,7 @@ public class StudentProfileActivity extends ListActivity {
     private DaoMaster daoMaster;
     private DaoSession daoSession;
     private StudentDao studentDao;
+    private Student student;
     private Button bsave;
     private StudentAdapter adapter;
 	
@@ -38,7 +42,7 @@ public class StudentProfileActivity extends ListActivity {
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
-	    Student student = studentDao.load(1l);
+	    student = studentDao.load(1l);
 	    
 	    // TEMP CREATING STUDENT
 		if (student == null) {
@@ -48,9 +52,6 @@ public class StudentProfileActivity extends ListActivity {
 			student.addDefaultDisabilities();
 			studentDao.update(student);
 		}
-		
-		student.addDisability(new Disability(null, "Disability 4", "Info 4", 2, "Math", student.getId()));
-		studentDao.update(student);
 	    adapter = new StudentAdapter(this, R.layout.student_profile_row, student.getDisabilities());
 	    
 	    //Adding the header
@@ -65,9 +66,11 @@ public class StudentProfileActivity extends ListActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Log.v("edit",""+adapter.getItem(0).getRating());
-				Log.v("edit",""+adapter.getItem(1).getRating());
-				Log.v("edit",""+adapter.getItem(2).getRating());
+				List<Disability> disUp = new ArrayList<Disability>();
+				for (int i=0; i<adapter.getCount(); i++){
+					disUp.add(adapter.getItem(i));
+				}
+				student.updateDisabilities(disUp);
 			}
 		});
 
