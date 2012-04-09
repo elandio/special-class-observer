@@ -35,6 +35,7 @@ public class StudentProfileActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_profile_edit);
+        setTitle("Student Classroom Observer - Student Profil");
         
         DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();

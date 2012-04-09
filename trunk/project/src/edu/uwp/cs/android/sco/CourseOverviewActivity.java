@@ -20,16 +20,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.Spinner;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
-import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
+import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.view.MyListAdapter;
 
 public class CourseOverviewActivity extends ListActivity implements View.OnClickListener {
@@ -105,6 +107,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     private void openCourseOverview() {
     	Log.i("CourseOverviewActivity", "openCourseOverview() called");
     	setContentView(R.layout.course_overview);
+    	setTitle("Student Classroom Observer -  Course List");
     	
         helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();
@@ -170,7 +173,12 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         addCourseDialog.show();
 
         final EditText courseNameText = (EditText) addCourseDialog.findViewById(R.id.courseNameEditText);
-        final EditText courseCategoryText = (EditText) addCourseDialog.findViewById(R.id.courseCategoryEditText);
+        final Spinner comboBox = (Spinner) addCourseDialog.findViewById(R.id.courseCategorySpinner);
+        
+        String array_comboBox[] = new String[]{"Math", "Languages", "Science", "Economics", "Others"};
+        
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, array_comboBox);
+        comboBox.setAdapter(adapter);
 
         Button cancelButton = (Button) addCourseDialog.findViewById(R.id.cancelButton);
         final Button saveButton = (Button) addCourseDialog.findViewById(R.id.saveButton);
@@ -179,20 +187,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         courseNameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                saveButton.setEnabled(validateAddCourseInput(addCourseDialog, courseNameText, courseCategoryText));
-            }
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-        });
-
-        courseCategoryText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                saveButton.setEnabled(validateAddCourseInput(addCourseDialog, courseNameText, courseCategoryText));
+                saveButton.setEnabled(!courseNameText.getText().toString().equals(""));
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -205,12 +200,11 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         saveButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String courseName = courseNameText.getText().toString();
-                String courseCategory = courseCategoryText.getText().toString();
+                String courseName = courseNameText.getText().toString();               
+                String courseCategory = comboBox.getSelectedItem().toString();
 
                 // clear fields for first and last name
                 courseNameText.setText("");
-                courseCategoryText.setText("");
 
                 Course course = new Course(null, courseName, courseCategory);
                 courseDao.insert(course);
@@ -228,13 +222,6 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
                 addCourseDialog.dismiss();
             }
         });
-    }
-
-    public boolean validateAddCourseInput(Dialog dialog, EditText courseName, EditText courseCategory) {
-        if (!courseName.getText().toString().equals("") && !courseCategory.getText().toString().equals("")) {
-            return true;
-        }
-        return false;
     }
 
     @Override

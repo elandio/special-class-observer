@@ -112,6 +112,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     }
     
     private void openStudentOverview() {
+        
+        setTitle("Student Classroom Observer - Student List");
     	
     	helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();

@@ -16,13 +16,13 @@ public class StartActivity extends Activity implements View.OnClickListener{
         setContentView(R.layout.start);
         
         // find buttons
-        navToConvertToPDF = (Button) findViewById(R.id.navToConvertToPDF);
+//        navToConvertToPDF = (Button) findViewById(R.id.navToConvertToPDF);
         navToStudentProfile = (Button) findViewById(R.id.navToStudentProfile);
         navToStudentOverview = (Button) findViewById(R.id.navToStudentOverview);
         navToCourseOverview = (Button) findViewById(R.id.navToCourseOverview);
         
         // set OnClickListeners
-        navToConvertToPDF.setOnClickListener(this);
+//        navToConvertToPDF.setOnClickListener(this);
         navToStudentProfile.setOnClickListener(this);
         navToStudentOverview.setOnClickListener(this);
         navToCourseOverview.setOnClickListener(this);

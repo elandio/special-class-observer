@@ -138,7 +138,7 @@ public class ConvertToPDFActivity extends Activity {
             fOut.close();
 
             System.out.println("Finished createPDF() method...");
-            Toast.makeText(this, "Finished createPDF() method...", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "PDF File created", Toast.LENGTH_LONG).show();
         }
         catch (FileNotFoundException e) {
             System.out.println("FILE NOT FOUND EXCEPTION");
