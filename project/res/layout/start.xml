@@ -12,12 +12,12 @@
         android:text="@string/welcome"
         android:textSize="35dp" />
 
-    <Button
+    <!-- <Button
         android:id="@+id/navToConvertToPDF"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="Open ConvertToPDFActivity" />
+        android:text="Open ConvertToPDFActivity" />  -->
 
     <Button
         android:id="@+id/navToStudentProfile"
