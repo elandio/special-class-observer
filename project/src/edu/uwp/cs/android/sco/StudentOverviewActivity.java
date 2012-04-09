@@ -351,6 +351,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         AdapterContextMenuInfo current = (AdapterContextMenuInfo) item.getMenuInfo();
+        long studentId = current.id;
+        
         switch(item.getItemId()) {            
             case OPEN_ID:
                 //TODO: implement open students profil
@@ -360,12 +362,11 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 break;
             case PRINT_ID:
                 Intent i = new Intent(this, ConvertToPDFActivity.class);
-                i.putExtra("studentId", current.id);
-                i.putExtra("courseId", courseId);
+                i.putExtra("studentId", studentId);
                 startActivity(i);
                break;    
             case DELETE_ID:
-                openDeleteDialog(current.id);
+                openDeleteDialog(studentId);
                 break;
             default:
             	Log.e("StudentOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");
