@@ -232,6 +232,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     private void openCourseListActivity(long courseId){
         Intent studentOverview = new Intent(this, StudentOverviewActivity.class);
         studentOverview.putExtra("courseId", courseId);
+        studentOverview.putExtra("courseName", courseDao.load(courseId).getName());
         Log.d("CourseOverviewActivity", "--> CLICKED onListItemClick called Intent");
         startActivity(studentOverview);
     }
