@@ -292,10 +292,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
-    	// TODO open student profile instead of deleting dialog!!!
-    	
-    	// open dialog for delete confirmation
-    	openDeleteDialog(studentId);
+        Intent studentProfile = new Intent(this, StudentProfileActivity.class);
+        studentProfile.putExtra("studentId", studentId);
+        startActivity(studentProfile);
     }
 
     /**
