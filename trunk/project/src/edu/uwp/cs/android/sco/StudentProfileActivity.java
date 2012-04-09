@@ -3,7 +3,9 @@ package edu.uwp.cs.android.sco;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -67,11 +69,7 @@ public class StudentProfileActivity extends ListActivity {
 			
 			@Override
 			public void onClick(View v) {
-				List<Disability> disUp = new ArrayList<Disability>();
-				for (int i=0; i<adapter.getCount(); i++){
-					disUp.add(adapter.getItem(i));
-				}
-				student.updateDisabilities(disUp);
+				openSaveConfirmDialog();
 			}
 		});
 
@@ -81,5 +79,26 @@ public class StudentProfileActivity extends ListActivity {
 	public Disability getDisability(int position) {
 		return(((StudentAdapter)getListAdapter()).getItem(position));
 	}
+	
+    protected void openSaveConfirmDialog() {
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Want to save changes on this students profile? ")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	    	   public void onClick(DialogInterface dialog, int id) {
+    					List<Disability> disUp = new ArrayList<Disability>();
+    					for (int i=0; i<adapter.getCount(); i++){
+    						disUp.add(adapter.getItem(i));
+    					}
+    					student.updateDisabilities(disUp);
+    	           }
+    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
 
 }
