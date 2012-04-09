@@ -8,7 +8,6 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -45,7 +44,7 @@ public class StudentProfileActivity extends ListActivity {
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
-	    student = studentDao.load(1l);
+	    student = studentDao.load(getIntent().getLongExtra("studentId", 1l));
 	    
 	    // TEMP CREATING STUDENT
 		if (student == null) {
