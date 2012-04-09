@@ -158,10 +158,11 @@ public class Student {
     }
     
     public void addDefaultDisabilities() {
-        addDisability("Disability1", "Info1", "General", id);
-        addDisability("Disability2", "Info2", "General", id);
-        addDisability("Disability3", "Info3", "General", id);
-        addDisability("Disability4", "Info4", "General", id);
+    	String defaultInfo = "Lorem ipsum dolor sit amet, semper gravida.";
+        addDisability("Concentration Issues", defaultInfo, "General", id);
+        addDisability("Understanding Issues", defaultInfo, "General", id);
+        addDisability("Repeating Content Issues", defaultInfo, "General", id);
+        addDisability("Panic attacks", defaultInfo, "General", id);
     }
     
     public void deleteRelation(List<Long> courseRelations) {
