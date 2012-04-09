@@ -23,14 +23,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
-import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoSession;
-import edu.uwp.cs.android.sco.entities.RelationCourseStudent;
 import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
@@ -59,38 +56,37 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("StudentOverviewActivity", "onCreate() called");
-        courseId = getIntent().getLongExtra("courseId", -1l);
-//    	openStudentOverview();
+        Log.d("StudentOverviewActivity", "onCreate() called");
+//      courseId = getIntent().getLongExtra("courseId", -1l); // will be executed by onResume()
+//    	openStudentOverview(); // will be executed by onResume()
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
-    	Log.i("StudentOverviewActivity", "onResume() called");
-//    	courseId = getIntent().getLongExtra("courseId", -1l);
+    	Log.d("StudentOverviewActivity", "onResume() called");
+    	courseId = getIntent().getLongExtra("courseId", -1l);
     	openStudentOverview();
-    	
     }
     
     @Override
     protected void onPause () {
     	super.onPause();
-    	Log.i("StudentOverviewActivity", "onPause() called");
+    	Log.d("StudentOverviewActivity", "onPause() called");
     	releaseAllResources();
     }
     
     @Override
     protected void onStop () {
     	super.onStop();
-    	Log.i("StudentOverviewActivity", "onStop() called");
+    	Log.d("StudentOverviewActivity", "onStop() called");
     	releaseAllResources();
     }
 
     @Override
     protected void onRestart() {
     	super.onRestart();
-    	Log.i("StudentOverviewActivity", "onRestart() called");
+    	Log.d("StudentOverviewActivity", "onRestart() called");
     	courseId = getIntent().getLongExtra("courseId", -1l);
     	openStudentOverview();
     }
@@ -98,7 +94,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     protected void onDestroy() {
     	super.onDestroy();
-    	Log.i("StudentOverviewActivity", "onDestroy() called");
+    	Log.d("StudentOverviewActivity", "onDestroy() called");
     	releaseAllResources();
     }
     
@@ -112,7 +108,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     }
     
     private void openStudentOverview() {
-        
         setTitle("Student Classroom Observer - Student List");
     	
     	helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
@@ -131,7 +126,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     		System.out.println("display course " + courseId);
     		showCourseStudents();
     	}
-        
     }
     
     protected void showAllStudents() {		
@@ -338,6 +332,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
         	relationPKeys.add(mCursor.getLong(0));
         }
+        mCursor.close();
         return relationPKeys;
     }
 
