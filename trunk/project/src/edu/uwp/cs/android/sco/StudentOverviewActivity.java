@@ -292,10 +292,14 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
+    	openStudentProfile(studentId);
+    }
+    
+    protected void openStudentProfile(long studentId) {
         Intent studentProfile = new Intent(this, StudentProfileActivity.class);
         studentProfile.putExtra("studentId", studentId);
         startActivity(studentProfile);
-    }
+	}
 
     /**
      * DELETE STUDENT AND RELATIONS
@@ -339,7 +343,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);       
         menu.add(0, OPEN_ID, 0, "Open");
-        menu.add(0, EDIT_ID, 0, "Edit");
+//        menu.add(0, EDIT_ID, 0, "Edit");
         menu.add(0, PRINT_ID, 0, "Print PDF");
         menu.add(0, DELETE_ID, 0, "Delete");
     }
@@ -351,11 +355,12 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         
         switch(item.getItemId()) {            
             case OPEN_ID:
+            	openStudentProfile(studentId);
                 //TODO: implement open students profil
                 break;
-            case EDIT_ID:
-                //TODO: implement edit students profil
-                break;
+//            case EDIT_ID:
+//                //TODO: implement edit students profil
+//                break;
             case PRINT_ID:
                 Intent i = new Intent(this, ConvertToPDFActivity.class);
                 i.putExtra("studentId", studentId);

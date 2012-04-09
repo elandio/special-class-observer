@@ -90,6 +90,7 @@ public class StudentProfileActivity extends ListActivity {
     						disUp.add(adapter.getItem(i));
     					}
     					student.updateDisabilities(disUp);
+    					finish();
     	           }
     	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
