@@ -296,8 +296,8 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         
-        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-        long courseId = info.id;
+        AdapterContextMenuInfo current = (AdapterContextMenuInfo) item.getMenuInfo();
+        long courseId = current.id;
         switch (item.getItemId()) {
             case OPEN_ID:
                 openCourseListActivity(courseId);
