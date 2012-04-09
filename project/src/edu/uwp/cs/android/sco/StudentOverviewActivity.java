@@ -23,6 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
@@ -43,6 +44,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private StudentDao studentDao;
     private Cursor cursor;
     private long courseId;
+    private String courseName;
     
     private static final int OPEN_ID = Menu.FIRST;
     private static final int EDIT_ID = Menu.FIRST +1;
@@ -58,6 +60,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         Log.d("StudentOverviewActivity", "onCreate() called");
 //      courseId = getIntent().getLongExtra("courseId", -1l); // will be executed by onResume()
+//      courseName = getIntent().getStringExtra("courseName"); // will be executed by onResume()
 //    	openStudentOverview(); // will be executed by onResume()
     }
     
@@ -66,6 +69,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	super.onResume();
     	Log.d("StudentOverviewActivity", "onResume() called");
     	courseId = getIntent().getLongExtra("courseId", -1l);
+    	courseName = getIntent().getStringExtra("courseName");
     	openStudentOverview();
     }
     
@@ -88,6 +92,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	super.onRestart();
     	Log.d("StudentOverviewActivity", "onRestart() called");
     	courseId = getIntent().getLongExtra("courseId", -1l);
+    	courseName = getIntent().getStringExtra("courseName");
     	openStudentOverview();
     }
     
@@ -157,6 +162,13 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     
     protected void showCourseStudents() {		
 		setContentView(R.layout.student_overview);
+		
+		//Adding the header
+	    ListView listView = getListView();
+	    View header = (View)getLayoutInflater().inflate(R.layout.student_overview_header, null);
+        listView.addHeaderView(header);
+        TextView tvheader = (TextView)findViewById(R.id.tvHeader);
+	    tvheader.setText(courseName);
 
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
