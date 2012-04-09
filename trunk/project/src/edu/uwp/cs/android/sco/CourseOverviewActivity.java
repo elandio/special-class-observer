@@ -239,6 +239,10 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long courseId) {
+        openCourseListActivity(courseId);
+    }
+    
+    private void openCourseListActivity(long courseId){
         Intent studentOverview = new Intent(this, StudentOverviewActivity.class);
         studentOverview.putExtra("courseId", courseId);
         Log.i("CourseOverviewActivity", "--> CLICKED onListItemClick called Intent");
@@ -291,13 +295,16 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        
+        AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+        long courseId = info.id;
         switch (item.getItemId()) {
             case OPEN_ID:
-                //TODO: implement open class
+                openCourseListActivity(courseId);
                 break;
             case DELETE_ID:
-                AdapterContextMenuInfo current = (AdapterContextMenuInfo) item.getMenuInfo();
-                openDeleteDialog(current.id);
+                openDeleteDialog(courseId);
+
                 break;
             default:
             	Log.e("CourseOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");

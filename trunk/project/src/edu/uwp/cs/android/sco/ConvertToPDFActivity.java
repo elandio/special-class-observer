@@ -39,7 +39,6 @@ public class ConvertToPDFActivity extends Activity {
     private DaoMaster daoMaster;
     private DaoSession daoSession;
     private StudentDao studentDao;
-//    private long courseId;
     
     // buttons
     private Button sendMailButton;
@@ -53,8 +52,6 @@ public class ConvertToPDFActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.convert_to_pdf);
         
-        
-        
         sendMailButton = (Button) findViewById(R.id.convert_to_pdf_sendMail);
         openPdfButton = (Button) findViewById(R.id.convert_to_pdf_openPdf);
         doneButton = (Button) findViewById(R.id.convert_to_pdf_done);
@@ -65,16 +62,19 @@ public class ConvertToPDFActivity extends Activity {
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
-        long studentId = getIntent().getLongExtra("studentID", -1l);
-//        courseId = getIntent().getLongExtra("courseId", -1l);
+        long studentId = getIntent().getLongExtra("studentId", -1l);
         
         if(studentId == -1l){
-           Log.e("OH MY GOD:", "WE HAVE A PROBLEM!!!!!!"); 
+           Log.e("Error:", "No studentId from the incomming intent!"); 
         }
         
 	    Student student = studentDao.load(studentId);
+	    student.addDefaultDisabilities();
+	    
+//	    System.out.println("Check syso for the student: " + student);
         
         createPDF(student);
+        
         
         sendMailButton.setOnClickListener(new OnClickListener() {
 
@@ -99,77 +99,10 @@ public class ConvertToPDFActivity extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
-//                Intent studentOverview = new Intent(ConvertToPDFActivity.this, StudentOverviewActivity.class);
-//                studentOverview.putExtra("courseId", courseId);
-//                Log.i("ConvertToPDFActivity", "--> CLOSED the pdf dialog");
-//                startActivity(studentOverview);
             }
         });
-        
-//        openPdfDialog();
-
-//        sendMail.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                sendMail();
-//
-//            }
-//        });
-//        
-//        openPdf.setOnClickListener(new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(View v) {
-//               openPDF();
-//                
-//            }
-//        });
     }
     
-//    private void openPdfDialog() {
-//        final Dialog pdfDialog = new Dialog(ConvertToPDFActivity.this);
-//        
-//        pdfDialog.setContentView(R.layout.convert_to_pdf);
-//        pdfDialog.setTitle("PDF Dialog");
-//        pdfDialog.setCancelable(true);
-//        pdfDialog.show();
-//        
-//        Button sendMailButton = (Button) pdfDialog.findViewById(R.id.convert_to_pdf_sendMail);
-//        Button openPdfButton = (Button) pdfDialog.findViewById(R.id.convert_to_pdf_openPdf);
-//        Button doneButton = (Button) pdfDialog.findViewById(R.id.convert_to_pdf_done);
-//        
-//        sendMailButton.setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                sendMail();
-//
-//            }
-//        });
-//        
-//        openPdfButton.setOnClickListener(new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(View v) {
-//               openPDF();
-//                
-//            }
-//        });
-//        
-//        doneButton.setOnClickListener(new OnClickListener() {
-//            
-//            @Override
-//            public void onClick(View v) {
-//                pdfDialog.dismiss(); 
-//                Intent studentOverview = new Intent(ConvertToPDFActivity.this, StudentOverviewActivity.class);
-//                studentOverview.putExtra("courseId", courseId);
-//                Log.i("ConvertToPDFActivity", "--> CLOSED the pdf dialog");
-//                startActivity(studentOverview);
-//            }
-//        });
-//        
-//    }
 
     private void createPDF(Student student) {
         try {

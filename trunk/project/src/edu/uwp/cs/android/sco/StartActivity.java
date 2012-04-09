@@ -33,8 +33,8 @@ public class StartActivity extends Activity implements View.OnClickListener{
 	public void onClick(View v) {
 		
 		if (v == navToConvertToPDF) {
-			Intent i = new Intent(this, ConvertToPDFActivity.class);    
-	        startActivity(i);
+//			Intent i = new Intent(this, ConvertToPDFActivity.class);    
+//	        startActivity(i);
 		}
 		if (v == navToStudentProfile) {
 			Intent i = new Intent(this, StudentProfileActivity.class);    
