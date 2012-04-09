@@ -55,42 +55,42 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("CourseOverviewActivity", "onCreate() called");
-        openCourseOverview();
+        Log.d("CourseOverviewActivity", "onCreate() called");
+//      openCourseOverview(); // will be executed by onResume()
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
-    	Log.i("CourseOverviewActivity", "onResume() called");
-//    	openCourseOverview();
+    	Log.d("CourseOverviewActivity", "onResume() called");
+    	openCourseOverview();
     }
     
     @Override
     protected void onPause () {
     	super.onPause();
-    	Log.i("CourseOverviewActivity", "onPause() called");
+    	Log.d("CourseOverviewActivity", "onPause() called");
     	releaseAllResources();
     }
     
     @Override
     protected void onStop () {
     	super.onStop();
-    	Log.i("CourseOverviewActivity", "onStop() called");
+    	Log.d("CourseOverviewActivity", "onStop() called");
     	releaseAllResources();
     }
 
     @Override
     protected void onRestart() {
     	super.onRestart();
-    	Log.i("CourseOverviewActivity", "onRestart() called");
+    	Log.d("CourseOverviewActivity", "onRestart() called");
     	openCourseOverview();
     }
     
     @Override
     protected void onDestroy() {
     	super.onDestroy();
-    	Log.i("CourseOverviewActivity", "onDestroy() called");
+    	Log.d("CourseOverviewActivity", "onDestroy() called");
     	releaseAllResources();
     }
     
@@ -105,7 +105,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     }
     
     private void openCourseOverview() {
-    	Log.i("CourseOverviewActivity", "openCourseOverview() called");
+    	Log.d("CourseOverviewActivity", "openCourseOverview() called");
     	setContentView(R.layout.course_overview);
     	setTitle("Student Classroom Observer -  Course List");
     	
@@ -209,7 +209,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
                 Course course = new Course(null, courseName, courseCategory);
                 courseDao.insert(course);
 
-                Log.d("SCO-Project", "Inserted new course: [" + course.getId() + "] " + courseName + " " + courseCategory);
+                Log.d("CourseOverviewActivity", "Inserted new course: [" + course.getId() + "] " + courseName + " " + courseCategory);
 
                 cursor.requery();
                 addCourseDialog.dismiss();
@@ -232,7 +232,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     private void openCourseListActivity(long courseId){
         Intent studentOverview = new Intent(this, StudentOverviewActivity.class);
         studentOverview.putExtra("courseId", courseId);
-        Log.i("CourseOverviewActivity", "--> CLICKED onListItemClick called Intent");
+        Log.d("CourseOverviewActivity", "--> CLICKED onListItemClick called Intent");
         startActivity(studentOverview);
     }
 
@@ -270,6 +270,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
         	relationPKeys.add(mCursor.getLong(0));
         }
+        mCursor.close();
         return relationPKeys;
     }
 
