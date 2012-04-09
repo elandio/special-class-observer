@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
@@ -26,7 +25,7 @@ public class StudentProfileActivity extends ListActivity {
     private DaoSession daoSession;
     private StudentDao studentDao;
     private Button bsave;
-    private RatingBar rbdis;
+    private StudentAdapter adapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,46 +51,31 @@ public class StudentProfileActivity extends ListActivity {
 		
 		student.addDisability(new Disability(null, "Disability 4", "Info 4", 2, "Math", student.getId()));
 		studentDao.update(student);
-		Disability[] disabilities = new Disability[student.getDisabilities().size()];
-	    int i=0;
-	    for (Disability disability : student.getDisabilities()) {
-			disabilities[i]= disability;
-			i++;
-		}
-	    StudentAdapter adapter = new StudentAdapter(this,
-        R.layout.student_profile_row, disabilities);
+	    adapter = new StudentAdapter(this, R.layout.student_profile_row, student.getDisabilities());
 	    
+	    //Adding the header
 	    ListView listView = getListView();
 	    View header = (View)getLayoutInflater().inflate(R.layout.student_profile_header, null);
         listView.addHeaderView(header);
         TextView tvheader = (TextView)findViewById(R.id.tvhead);
 	    tvheader.setText(student.getFName() + " " +student.getLName());
-	    Log.v("edit", student.getDisabilities().get(0).getRating().toString());
 	    
-//	    rbdis = (RatingBar)findViewById(R.id.ratingbar);
-//	    rbdis.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
-//			
-//			@Override
-//			public void onRatingChanged(RatingBar ratingBar, float rating,
-//					boolean fromUser) {
-//				Log.v("edit", "" + ratingBar.getTag());			
-//			}
-//		});
-
 	    bsave = (Button)findViewById(R.id.bsave);
 	    bsave.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				ListView listView = getListView();
-				for(int i=1; i<listView.getChildCount();i++){
-					Log.v("edit", listView.getChildAt(i).toString());
-				}
-//				Log.v("edit", student.getDisabilities().get(0).getRating().toString());
+				Log.v("edit",""+adapter.getItem(0).getRating());
+				Log.v("edit",""+adapter.getItem(1).getRating());
+				Log.v("edit",""+adapter.getItem(2).getRating());
 			}
 		});
 
         setListAdapter(adapter);
+	}
+	
+	public Disability getDisability(int position) {
+		return(((StudentAdapter)getListAdapter()).getItem(position));
 	}
 
 }
