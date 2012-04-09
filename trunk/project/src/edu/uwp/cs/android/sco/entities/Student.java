@@ -147,6 +147,7 @@ public class Student {
     public void addDisability(Disability disability) {
     	disabilities = getDisabilities();
         disabilities.add(disability);
+        daoSession.insert(disability);
     }
     
     public void addDisability(String name, String info, String category,  long studentId) {
@@ -178,6 +179,14 @@ public class Student {
         for (Long key : courseRelations) {
         	daoSession.getRelationCourseStudentDao().deleteByKey(key);
 		}        
+    } 
+    
+    public void updateDisabilities(List<Disability> disUp){
+    	for (int i=0; i<disUp.size(); i++){
+    		disabilities.set(i, disUp.get(i));
+    		daoSession.update(disUp.get(i));
+    	}
+    	
     }
     
     // KEEP METHODS END
