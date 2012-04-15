@@ -8,6 +8,7 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,12 +30,63 @@ public class StudentProfileActivity extends ListActivity {
     private DaoSession daoSession;
     private StudentDao studentDao;
     private Student student;
-    private Button bsave;
     private StudentAdapter adapter;
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
+    
+    // buttons
+    private Button bsave;
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("StudentProfileActivity", "onCreate() called");
+//      openStudentProfile(); // will be executed by onResume()
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	Log.d("StudentProfileActivity", "onResume() called");
+    	openStudentProfile();
+    }
+    
+    @Override
+    protected void onPause () {
+    	super.onPause();
+    	Log.d("StudentProfileActivity", "onPause() called");
+    	releaseAllResources();
+    }
+    
+    @Override
+    protected void onStop () {
+    	super.onStop();
+    	Log.d("StudentProfileActivity", "onStop() called");
+    	releaseAllResources();
+    }
+
+    @Override
+    protected void onRestart() {
+    	super.onRestart();
+    	Log.d("StudentProfileActivity", "onRestart() called");
+//    	openStudentProfile();
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
+    	Log.d("StudentProfileActivity", "onDestroy() called");
+    	releaseAllResources();
+    }
+    
+    private void releaseAllResources() {
+    	adapter = null;
+    	studentDao = null;
+        daoSession = null;
+        daoMaster = null;
+        db.close();
+    }
+	
+	public void openStudentProfile() {
         setContentView(R.layout.student_profile_edit);
         setTitle("Student Classroom Observer - Student Profil");
         

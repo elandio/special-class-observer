@@ -45,6 +45,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private Cursor cursor;
     private long courseId;
     private String courseName;
+    private MyListAdapter adapter;
     
     private static final int OPEN_ID = Menu.FIRST;
     private static final int EDIT_ID = Menu.FIRST +1;
@@ -91,9 +92,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     protected void onRestart() {
     	super.onRestart();
     	Log.d("StudentOverviewActivity", "onRestart() called");
-    	courseId = getIntent().getLongExtra("courseId", -1l);
-    	courseName = getIntent().getStringExtra("courseName");
-    	openStudentOverview();
+//    	courseId = getIntent().getLongExtra("courseId", -1l);
+//    	courseName = getIntent().getStringExtra("courseName");
+//    	openStudentOverview();
     }
     
     @Override
@@ -104,9 +105,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     }
     
     private void releaseAllResources() {
+    	adapter = null;
+    	studentDao = null;
     	daoMaster = null;
         daoSession = null;
-        studentDao = null;
     	cursor.close();
     	db.close();
     	helper.close();
@@ -161,15 +163,16 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     }
     
     protected void showCourseStudents() {		
-		setContentView(R.layout.student_overview);
-		
-		//Adding the header
-	    ListView listView = getListView();
-	    View header = (View)getLayoutInflater().inflate(R.layout.student_overview_header, null);
-        listView.addHeaderView(header);
-        TextView tvheader = (TextView)findViewById(R.id.tvHeader);
-	    tvheader.setText(courseName);
+    	setContentView(R.layout.student_overview);
 
+		if (adapter == null && getListView().getHeaderViewsCount() == 0) {
+		    // Adding the header
+		    View header = (View) getLayoutInflater().inflate(R.layout.student_overview_header, null);
+		    getListView().addHeaderView(header);
+		    TextView tvheader = (TextView) findViewById(R.id.tvHeader);
+		    tvheader.setText(courseName);
+        }
+    	
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         String where = "_id IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
@@ -177,7 +180,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String[] from = { textColumn, StudentDao.Properties.LName.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
 
-        MyListAdapter adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
