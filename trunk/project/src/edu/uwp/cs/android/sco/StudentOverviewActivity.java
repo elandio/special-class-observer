@@ -165,13 +165,13 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     protected void showCourseStudents() {		
     	setContentView(R.layout.student_overview);
 
-		if (adapter == null && getListView().getHeaderViewsCount() == 0) {
-		    // Adding the header
-		    View header = (View) getLayoutInflater().inflate(R.layout.student_overview_header, null);
-		    getListView().addHeaderView(header);
-		    TextView tvheader = (TextView) findViewById(R.id.tvHeader);
-		    tvheader.setText(courseName);
-        }
+//		if (adapter == null && getListView().getHeaderViewsCount() == 0) {
+//		    // Adding the header
+//		    View header = (View) getLayoutInflater().inflate(R.layout.student_overview_header, null);
+//		    getListView().addHeaderView(header);
+//		    TextView tvheader = (TextView) findViewById(R.id.tvHeader);
+//		    tvheader.setText(courseName);
+//        }
     	
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
