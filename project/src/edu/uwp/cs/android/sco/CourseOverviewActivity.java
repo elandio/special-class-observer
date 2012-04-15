@@ -206,7 +206,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
                 // clear fields for first and last name
                 courseNameText.setText("");
 
-                Course course = new Course(null, courseName, courseCategory);
+                Course course = new Course(null, courseName, courseCategory, "Spring", 2012);
                 courseDao.insert(course);
 
                 Log.d("CourseOverviewActivity", "Inserted new course: [" + course.getId() + "] " + courseName + " " + courseCategory);
