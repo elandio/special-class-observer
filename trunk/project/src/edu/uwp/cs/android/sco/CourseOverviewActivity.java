@@ -84,7 +84,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     protected void onRestart() {
     	super.onRestart();
     	Log.d("CourseOverviewActivity", "onRestart() called");
-    	openCourseOverview();
+//    	openCourseOverview();
     }
     
     @Override
