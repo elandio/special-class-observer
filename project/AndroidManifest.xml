@@ -28,6 +28,7 @@
             android:name=".StudentOverviewActivity">
         </activity>
         <activity android:name=".StudentProfileActivity"></activity>
+        <activity android:name=".StudentSelectActivity"></activity>
     </application>
     
 

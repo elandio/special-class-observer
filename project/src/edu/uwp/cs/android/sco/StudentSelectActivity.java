@@ -1,39 +1,27 @@
 package edu.uwp.cs.android.sco;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
-import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
 import edu.uwp.cs.android.sco.view.MyListAdapter;
 
-public class StudentOverviewActivity extends ListActivity implements View.OnClickListener{
+public class StudentSelectActivity extends ListActivity implements View.OnClickListener{
 	
 	// database management
 	private DevOpenHelper helper;
@@ -46,11 +34,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private String courseName;
     private MyListAdapter adapter;
     
-    private static final int OPEN_ID = Menu.FIRST;
-    private static final int EDIT_ID = Menu.FIRST +1;
-    private static final int PRINT_ID = Menu.FIRST +2;
-    private static final int DELETE_ID = Menu.FIRST +3;   
-    
     // buttons
     private Button buttonAddStudent, buttonResetSearch, buttonBack;
     private EditText etSearchStudent;
@@ -58,16 +41,13 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("StudentOverviewActivity", "onCreate() called");
-//      courseId = getIntent().getLongExtra("courseId", -1l); // will be executed by onResume()
-//      courseName = getIntent().getStringExtra("courseName"); // will be executed by onResume()
-//    	openStudentOverview(); // will be executed by onResume()
+        Log.d("StudentSelectActivity", "onCreate() called");
     }
     
     @Override
     protected void onResume() {
     	super.onResume();
-    	Log.d("StudentOverviewActivity", "onResume() called");
+    	Log.d("StudentSelectActivity", "onResume() called");
     	courseId = getIntent().getLongExtra("courseId", -1l);
     	courseName = getIntent().getStringExtra("courseName");
     	openStudentOverview();
@@ -76,30 +56,27 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     protected void onPause () {
     	super.onPause();
-    	Log.d("StudentOverviewActivity", "onPause() called");
+    	Log.d("StudentSelectActivity", "onPause() called");
     	releaseAllResources();
     }
     
     @Override
     protected void onStop () {
     	super.onStop();
-    	Log.d("StudentOverviewActivity", "onStop() called");
+    	Log.d("StudentSelectActivity", "onStop() called");
     	releaseAllResources();
     }
 
     @Override
     protected void onRestart() {
     	super.onRestart();
-    	Log.d("StudentOverviewActivity", "onRestart() called");
-//    	courseId = getIntent().getLongExtra("courseId", -1l);
-//    	courseName = getIntent().getStringExtra("courseName");
-//    	openStudentOverview();
+    	Log.d("StudentSelectActivity", "onRestart() called");
     }
     
     @Override
     protected void onDestroy() {
     	super.onDestroy();
-    	Log.d("StudentOverviewActivity", "onDestroy() called");
+    	Log.d("StudentSelectActivity", "onDestroy() called");
     	releaseAllResources();
     }
     
@@ -120,7 +97,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     }
     
     private void openStudentOverview() {
-        setTitle("Student Classroom Observer - Student List");
+        setTitle("Student Classroom Observer - Add student to " + courseName);
     	
     	helper = new DaoMaster.DevOpenHelper(this, "sco-v1.db", null);
         db = helper.getWritableDatabase();
@@ -128,55 +105,23 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
-    	// load view - show all students or show students  
+    	// load view
     	if (courseId == -1l) {
-    		// display all students
-    		System.out.println("display all students");
-    		showAllStudents();
+    		/*
+    		 * ERROR: Failed to receive course id from intent
+    		 * It has to use intentName.putExtra("courseId", courseId); 
+    		 */
+    		Log.e("StudentSelectActivity", "ERROR: Failed to receive course id from intent.");
+    		finish();
     	} else {
-    		// display student depending on courseId
-    		System.out.println("display course " + courseId);
+    		// loading list of students to add them to a course
+    		System.out.println("display student list for adding it to course " + courseId);
     		showCourseStudents();
     	}
     }
     
-    protected void showAllStudents() {		
-		setContentView(R.layout.student_overview);
-
-        String textColumn = StudentDao.Properties.FName.columnName;
-        String orderBy = textColumn + " COLLATE LOCALIZED ASC";
-        cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), null, null, null, null, orderBy);
-        String[] from = { textColumn, StudentDao.Properties.LName.columnName };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
-
-        MyListAdapter adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
-        setListAdapter(adapter);
-
-        etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
-        
-        // initialize buttons and set onclicklisteners
-        buttonAddStudent = (Button) findViewById(R.id.student_overview_bAddStudent);
-        buttonAddStudent.setOnClickListener(this);
-        
-        buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
-        buttonResetSearch.setOnClickListener(this);
-        
-        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
-        buttonBack.setOnClickListener(this);
-        
-        registerForContextMenu(getListView());
-    }
-    
     protected void showCourseStudents() {		
     	setContentView(R.layout.student_overview);
-
-//		if (adapter == null && getListView().getHeaderViewsCount() == 0) {
-//		    // Adding the header
-//		    View header = (View) getLayoutInflater().inflate(R.layout.student_overview_header, null);
-//		    getListView().addHeaderView(header);
-//		    TextView tvheader = (TextView) findViewById(R.id.tvHeader);
-//		    tvheader.setText(courseName);
-//        }
     	
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
@@ -207,14 +152,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 	@Override
 	public void onClick(View v) {
 		if (v == buttonAddStudent) {
-			if (courseId == -1l) {
-				openCreateStudentDialog();
-			} else {
-				Intent selectStudents = new Intent(this, StudentSelectActivity.class);
-				selectStudents.putExtra("courseId", courseId);
-				selectStudents.putExtra("courseName", courseName);
-		        startActivity(selectStudents);
-			}
+			openCreateStudentDialog();
 		}
 		if (v == buttonResetSearch) {
             etSearchStudent.setText("");
@@ -227,7 +165,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 	}
 	
 	public void openCreateStudentDialog() {
-		final Dialog createStudentDialog = new Dialog(StudentOverviewActivity.this);
+		final Dialog createStudentDialog = new Dialog(StudentSelectActivity.this);
         
         createStudentDialog.setContentView(R.layout.student_dialog_create);
         createStudentDialog.setTitle("Create a new student");
@@ -288,7 +226,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                     Course course = daoSession.getCourseDao().load(courseId);
                     
                     if (course == null) { // TEMP FOR DEVELOPMENT
-                    	Log.e("StudentOverviewActivity", "ERROR: COURSE IS NOT INITIALIZED");
+                    	Log.e("StudentSelectActivity", "ERROR: COURSE IS NOT INITIALIZED");
                     }
                     
                     course.addStudent(student);
@@ -320,87 +258,14 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
-    	openStudentProfile(studentId);
+    	// TODO NEW: add student to course
+    	// openStudentProfile(studentId);
     }
     
-    protected void openStudentProfile(long studentId) {
-        Intent studentProfile = new Intent(this, StudentProfileActivity.class);
-        studentProfile.putExtra("studentId", studentId);
-        startActivity(studentProfile);
-	}
-
-    /**
-     * DELETE STUDENT AND RELATIONS
-     */
-    protected void openDeleteDialog(long studentId) {
-    	final Student student = studentDao.load(studentId);
-    	final AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverviewActivity.this);
-    	builder.setMessage("Are you sure you want to delete student " 
-    						+ student.getFName() + " " + student.getLName() + "?")
-    	       .setCancelable(false)
-    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-    	    	   public void onClick(DialogInterface dialog, int id) {
-    	               student.deleteRelation(getCourseRelations(student.getId()));
-    	               studentDao.deleteByKey(student.getId());
-    	               cursor.requery();
-    	               Log.d("StudentOverviewActivity", "Deleted student and relations, studentId: " + student.getId());
-    	           }
-    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	                dialog.cancel();
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
-    }
+//    protected void openStudentProfile(long studentId) {
+//        Intent studentProfile = new Intent(this, StudentProfileActivity.class);
+//        studentProfile.putExtra("studentId", studentId);
+//        startActivity(studentProfile);
+//	}
     
-    private List<Long> getCourseRelations(long studentId) {
-    	RelationCourseStudentDao relDao = daoSession.getRelationCourseStudentDao();
-    	String where = "STUDENT_ID = " + studentId;
-        Cursor mCursor = db.query(relDao.getTablename(), relDao.getAllColumns(), where, null, null, null, null);
-        
-        List<Long> relationPKeys = new ArrayList<Long>();
-        for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
-        	relationPKeys.add(mCursor.getLong(0));
-        }
-        mCursor.close();
-        return relationPKeys;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);       
-        menu.add(0, OPEN_ID, 0, "Open");
-//        menu.add(0, EDIT_ID, 0, "Edit");
-        menu.add(0, PRINT_ID, 0, "Print PDF");
-        menu.add(0, DELETE_ID, 0, "Delete");
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterContextMenuInfo current = (AdapterContextMenuInfo) item.getMenuInfo();
-        long studentId = current.id;
-        
-        switch(item.getItemId()) {            
-            case OPEN_ID:
-            	openStudentProfile(studentId);
-                //TODO: implement open students profil
-                break;
-//            case EDIT_ID:
-//                //TODO: implement edit students profil
-//                break;
-            case PRINT_ID:
-                Intent i = new Intent(this, ConvertToPDFActivity.class);
-                i.putExtra("studentId", studentId);
-                startActivity(i);
-               break;    
-            case DELETE_ID:
-                openDeleteDialog(studentId);
-                break;
-            default:
-            	Log.e("StudentOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");
-        }
-        return super.onContextItemSelected(item);
-    }
-
 }
