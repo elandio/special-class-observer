@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
@@ -36,6 +37,8 @@ public class StudentProfileActivity extends ListActivity {
     // buttons
     private Button bsave;
     
+    // editText
+    private EditText comment;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +118,10 @@ public class StudentProfileActivity extends ListActivity {
         TextView tvheader = (TextView)findViewById(R.id.tvhead);
 	    tvheader.setText(student.getFName() + " " +student.getLName());
 	    
+	    //Adding the footer
+	    View footer = (View)getLayoutInflater().inflate(R.layout.studnet_profile_footer, null);
+	    listView.addFooterView(footer);
+	    comment = (EditText)findViewById(R.id.et_profile_comment);
 	    bsave = (Button)findViewById(R.id.bsave);
 	    bsave.setOnClickListener(new OnClickListener() {
 			
@@ -129,6 +136,11 @@ public class StudentProfileActivity extends ListActivity {
 	
 	public Disability getDisability(int position) {
 		return(((StudentAdapter)getListAdapter()).getItem(position));
+	}
+	
+	@Override
+	public void onBackPressed() {
+		openSaveConfirmDialog();
 	}
 	
     protected void openSaveConfirmDialog() {
