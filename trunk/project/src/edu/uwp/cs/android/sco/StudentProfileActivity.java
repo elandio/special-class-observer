@@ -86,7 +86,9 @@ public class StudentProfileActivity extends ListActivity {
     	studentDao = null;
         daoSession = null;
         daoMaster = null;
-        db.close();
+    	if (db != null) {
+    		db.close();
+    	}
     }
 	
 	public void openStudentProfile() {

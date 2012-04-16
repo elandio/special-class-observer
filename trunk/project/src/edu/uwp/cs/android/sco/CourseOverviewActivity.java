@@ -99,9 +99,15 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     	courseDao = null;
         daoSession = null;
         daoMaster = null;
-        cursor.close();
-        db.close();
-    	helper.close();
+        if (cursor != null) {
+        	cursor.close();
+        }
+    	if (db != null) {
+    		db.close();
+    	}
+    	if (helper != null) {
+    		helper.close();
+    	}
     }
     
     private void openCourseOverview() {
