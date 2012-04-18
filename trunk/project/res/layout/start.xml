@@ -2,42 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:layout_gravity="center" >
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="@string/welcome"
         android:textSize="35dp" />
-
-    <!-- <Button
-        android:id="@+id/navToConvertToPDF"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Open ConvertToPDFActivity" />  -->
-
-    <Button
-        android:id="@+id/navToStudentProfile"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Open StudentProfileActivity" />
     
     <Button
         android:id="@+id/navToStudentOverview"
-        android:layout_width="fill_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Open StudentOverviewActivity" />
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:text="All Students" />
 
     <Button
         android:id="@+id/navToCourseOverview"
-        android:layout_width="fill_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:text="Open CourseOverviewActivity" />
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:text="Course Overview" />
+    
+        <Button
+        android:id="@+id/mainViewFaq"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center"
+        android:text="FAQ and About" />
     
 </LinearLayout>

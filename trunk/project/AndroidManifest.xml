@@ -14,22 +14,39 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                 <category android:name="android.intent.category.LAUNCHER" /> 
+                <!--<category android:name="android.intent.category.DEFAULT"/>-->
             </intent-filter>
         </activity>
         <activity android:name=".ConvertToPDFActivity"
             android:theme="@android:style/Theme.Holo.Dialog">
         </activity>
-        
-        <activity 
-            android:name=".CourseOverviewActivity">
+        <activity android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation">
         </activity>
         <activity 
-            android:name=".StudentOverviewActivity">
+			android:name="SplashScreenActivity"
+			android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
         </activity>
+        <activity android:name=".CourseOverviewActivity"></activity>
+        <activity android:name=".StudentOverviewActivity"></activity>
         <activity android:name=".StudentProfileActivity"></activity>
         <activity android:name=".StudentSelectActivity"></activity>
+        <activity android:name=".FaqAndAboutActivity"></activity>
     </application>
+    
+    <!-- Permission & Meta-Data for AdMob -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <meta-data
+        android:name="ADMOB_ALLOW_LOCATION_FOR_ADS"
+        android:value="true" />
     
 
 </manifest>

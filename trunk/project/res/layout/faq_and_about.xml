@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="FAQ and About"
+        android:textSize="35dp" />
+    
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/faq_faqHead"
+        android:textSize="25dp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/faq_faqText"
+        android:textSize="20dp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text="@string/faq_aboutHead"
+        android:textSize="25dp" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/faq_aboutText"
+        android:textSize="20dp" />
+    
+    <Button
+        android:id="@+id/faq_close"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_gravity="center"
+        android:text="Close" />
+    
+    <!-- include above: xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads" -->
+    <com.google.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        ads:adSize="IAB_BANNER"
+        ads:adUnitId="a14f3ff52e53292"
+        ads:loadAdOnCreate="true"
+        ads:refreshInterval="3" >
+    </com.google.ads.AdView>  -->
+    <!-- My ID:   a14f3ff52e53292-->
+    
+</LinearLayout>

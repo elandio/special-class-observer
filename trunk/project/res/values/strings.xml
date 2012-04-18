@@ -18,11 +18,19 @@
     <!-- add course -->
     <string name="add_course_name">Course Name: </string>
     <string name="add_course_category">Category: </string>
+    <string name="add_course_year">Course Year: </string>
+    <string name="add_course_semester">Semester: </string>
     
     <!-- convert_to_pdf -->
     <string name="convert_to_pdf_createFor">Creating PDF file for student: </string>
     <string name="convert_to_pdf_mail">Send via Mail </string>
     <string name="convert_to_pdf_open">Open PDF </string>
     <string name="convert_to_pdf_done">Done </string>
+    
+    <!--  faq -->
+    <string name="faq_faqHead">FAQ </string>
+    <string name="faq_faqText">Frequently asked questions are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic. "FAQ" is usually pronounced as an initialism rather than an acronym, but an acronym form does exist. Since the acronym FAQ originated in textual media, its pronunciation varies; "fack", "faak", "fax", and "facts" are commonly heard.[citation needed] Depending on usage, the term may refer specifically to a single frequently asked question, or to an assembled list of many questions and their answers. </string>
+    <string name="faq_aboutHead">About </string>
+    <string name="faq_aboutText">An about page is a standard web page on a website, with the link to this page located on the upper left side of the home page or on the down side as part of a short colophon. When there is more space they are also called an about me page or about us page, depending on whether the site is created by a person or an organization. </string>
 
 </resources>
