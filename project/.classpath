@@ -10,5 +10,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/itextpdf-5.2.0-custom.jar"/>
 	<classpathentry kind="lib" path="libs/greenDAO.jar"/>
+	<classpathentry kind="lib" path="libs/GoogleAdMobAdsSdk-4.1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

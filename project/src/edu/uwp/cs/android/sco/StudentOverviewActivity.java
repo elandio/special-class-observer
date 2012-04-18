@@ -370,10 +370,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);       
-        menu.add(0, OPEN_ID, 0, "Open");
-//        menu.add(0, EDIT_ID, 0, "Edit");
-        menu.add(0, PRINT_ID, 0, "Print PDF");
-        menu.add(0, DELETE_ID, 0, "Delete");
+        menu.add(0, OPEN_ID, 0, "Open student's profil");
+        menu.add(0, EDIT_ID, 0, "Edit student's profil");
+        menu.add(0, PRINT_ID, 0, "View PDF / Send via E-Mail");
+        menu.add(0, DELETE_ID, 0, "Remove from course");
     }
 
     @Override
@@ -384,11 +384,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         switch(item.getItemId()) {            
             case OPEN_ID:
             	openStudentProfile(studentId);
-                //TODO: implement open students profil
                 break;
-//            case EDIT_ID:
-//                //TODO: implement edit students profil
-//                break;
+            case EDIT_ID:
+                openEditDialog(studentId);
+                break;
             case PRINT_ID:
                 Intent i = new Intent(this, ConvertToPDFActivity.class);
                 i.putExtra("studentId", studentId);
@@ -402,5 +401,94 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         }
         return super.onContextItemSelected(item);
     }
+    
+    private void openEditDialog(final long studentId) {
+        final Dialog createStudentDialog = new Dialog(StudentOverviewActivity.this);
+        
+        final Student student = studentDao.load(studentId);
+        createStudentDialog.setContentView(R.layout.student_dialog_create);
+        createStudentDialog.setTitle("Edit a student");
+        createStudentDialog.setCancelable(true);
+        createStudentDialog.show();
+        
+        final EditText fNameText = (EditText) createStudentDialog.findViewById(R.id.studentFNameEditText);
+        final EditText lNameText = (EditText) createStudentDialog.findViewById(R.id.studentLNameEditText);
+        
+        fNameText.setText(student.getFName());
+        lNameText.setText(student.getLName());
+        
+        Button cancelButton = (Button) createStudentDialog.findViewById(R.id.cancelButton);
+        final Button saveButton = (Button) createStudentDialog.findViewById(R.id.saveButton);
+        saveButton.setEnabled(false);
+        
+        saveButton.setEnabled(validateAddStudentInput(createStudentDialog, fNameText, lNameText));
+        
+        fNameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveButton.setEnabled(validateAddStudentInput(createStudentDialog, fNameText, lNameText));
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+        
+        lNameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                saveButton.setEnabled(validateAddStudentInput(createStudentDialog, fNameText, lNameText));
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+        
+        saveButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String firstName = fNameText.getText().toString();
+                String lastName = lNameText.getText().toString();
+                
+                // clear fields for first and last name
+                fNameText.setText("");
+                lNameText.setText("");
 
+                Student student = new Student(studentId, firstName, lastName);
+                studentDao.update(student);
+                student.addDefaultDisabilities();
+                Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
+                
+                // if user selected a course - add course_student relation
+                if (courseId != -1l) {
+                    // insert student in current course
+                    Course course = daoSession.getCourseDao().load(courseId);
+                    
+                    if (course == null) { // TEMP FOR DEVELOPMENT
+                        Log.e("StudentOverviewActivity", "ERROR: COURSE IS NOT INITIALIZED");
+                    }
+                    
+                    course.addStudent(student);
+                    // TODO Output: Student was created and added to this course
+                }
+                
+                studentDao.update(student);
+
+                cursor.requery();
+                createStudentDialog.dismiss();
+            }
+        });
+        
+        cancelButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createStudentDialog.dismiss();
+            }
+        });
+    }
 }
