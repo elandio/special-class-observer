@@ -52,7 +52,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private static final int DELETE_ID = Menu.FIRST +3;   
     
     // buttons
-    private Button buttonAddStudent, buttonResetSearch, buttonBack;
+    private Button buttonAddStudent, buttonResetSearch; // buttonBack;
     private EditText etSearchStudent;
     
     @Override
@@ -161,8 +161,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
-        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
-        buttonBack.setOnClickListener(this);
+//        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
+//        buttonBack.setOnClickListener(this);
         
         registerForContextMenu(getListView());
     }
@@ -197,8 +197,8 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
-        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
-        buttonBack.setOnClickListener(this);
+//        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
+//        buttonBack.setOnClickListener(this);
         
         registerForContextMenu(getListView());
     }
@@ -219,11 +219,11 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 		if (v == buttonResetSearch) {
             etSearchStudent.setText("");
         }
-        if (v == buttonBack) {
-            finish();
+//        if (v == buttonBack) {
+//            finish();
 //            Intent i = new Intent(this, CourseOverviewActivity.class);    
 //            startActivity(i);
-        }
+//        }
 	}
 	
 	public void openCreateStudentDialog() {

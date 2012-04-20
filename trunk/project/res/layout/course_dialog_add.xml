@@ -9,20 +9,21 @@
         android:layout_height="wrap_content"
         android:gravity="left" 
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_course_name" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
 
         <EditText
             android:id="@+id/courseNameEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="text" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
     </TableRow>
 
         <TableRow
@@ -30,21 +31,21 @@
         android:layout_height="wrap_content"
         android:gravity="left" 
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_course_category"
-            android:textSize="18dp" />
-
+            android:textSize="23dp" />
 
         <Spinner
             android:id="@+id/courseCategorySpinner"
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:inputType="text" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
 
     </TableRow>
     
@@ -53,13 +54,14 @@
         android:layout_height="wrap_content"
         android:gravity="left" 
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_course_semester"
-            android:textSize="18dp" />
+            android:textSize="23dp" />
 
 
         <Spinner
@@ -67,7 +69,7 @@
             android:layout_width="200dp"
             android:layout_height="30dp"
             android:inputType="text" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
 
     </TableRow>
         
@@ -76,20 +78,21 @@
         android:layout_height="wrap_content"
         android:gravity="left" 
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_course_year" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
 
         <EditText
             android:id="@+id/courseYearEditText"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:inputType="text" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
     </TableRow>
     
     <TableRow
@@ -104,14 +107,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save" 
-            android:textSize="18dp"/>
+            android:textSize="23dp"/>
         
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:textSize="18dp" />
+            android:textSize="23dp" />
 
     </TableRow>
 
