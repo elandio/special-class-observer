@@ -19,7 +19,7 @@ import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
-import edu.uwp.cs.android.sco.view.MyListAdapter;
+import edu.uwp.cs.android.sco.view.SelectMultipleAdapter;
 
 public class StudentSelectActivity extends ListActivity implements View.OnClickListener{
 	
@@ -32,7 +32,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     private Cursor cursor;
     private long courseId;
     private String courseName;
-    private MyListAdapter adapter;
+    private SelectMultipleAdapter adapter;
     
     // buttons
     private Button buttonAddStudent, buttonResetSearch, buttonBack;
@@ -116,27 +116,27 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     	} else {
     		// loading list of students to add them to a course
     		System.out.println("display student list for adding it to course " + courseId);
-    		showCourseStudents();
+    		showNonCourseStudents();
     	}
     }
     
-    protected void showCourseStudents() {		
-    	setContentView(R.layout.student_overview);
+    protected void showNonCourseStudents() {		
+    	setContentView(R.layout.student_select_multiple);
     	
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
-        String where = "_id IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
+        String where = "_id NOT IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), where, null, null, null, orderBy);
         String[] from = { textColumn, StudentDao.Properties.LName.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
 
-        adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        adapter = new SelectMultipleAdapter(this, R.layout.student_select_multiple_row, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
         
         // initialize buttons and set onclicklisteners
-        buttonAddStudent = (Button) findViewById(R.id.student_overview_bAddStudent);
+        buttonAddStudent = (Button) findViewById(R.id.student_overview_bCreateStudent);
         buttonAddStudent.setOnClickListener(this);
         
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
@@ -145,6 +145,8 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         buttonBack = (Button) findViewById(R.id.student_overview_bBack);
         buttonBack.setOnClickListener(this);
         
+        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        getListView().setFocusable(true);
         registerForContextMenu(getListView());
     }
     
@@ -258,14 +260,8 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
-    	// TODO NEW: add student to course
-    	// openStudentProfile(studentId);
+    	Course course = daoSession.getCourseDao().load(courseId);
+    	course.addStudent(studentId);
     }
-    
-//    protected void openStudentProfile(long studentId) {
-//        Intent studentProfile = new Intent(this, StudentProfileActivity.class);
-//        studentProfile.putExtra("studentId", studentId);
-//        startActivity(studentProfile);
-//	}
     
 }

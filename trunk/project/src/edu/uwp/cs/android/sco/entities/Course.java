@@ -157,6 +157,13 @@ public class Course {
     	daoSession.insert(rel);
     }
     
+    public void addStudent(long studentId) {
+    	RelationCourseStudent rel = new RelationCourseStudent(null, studentId, id);
+    	students = getStudents();
+    	students.add(rel);
+    	daoSession.insert(rel);
+    }
+    
     public void deleteRelation(List<Long> studentRelations) {
         students = getStudents();
         for (int i = 0; i < students.size(); i++) {
