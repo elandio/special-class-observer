@@ -14,7 +14,8 @@
             android:text="Add Course"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_marginRight="30dp"></Button>
+            android:layout_marginRight="30dp"
+            android:textSize="23dp"></Button>
 		<EditText
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
@@ -22,13 +23,15 @@
 			android:inputType="text"
 			android:imeOptions="actionDone"
 			android:id="@+id/et_searchCourse"
-			android:hint="Search Course"></EditText>
+			android:hint="Search Course"
+			android:textSize="23dp"></EditText>
 		<Button
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:text="Reset Search"
 			android:id="@+id/course_overview_bResetSearch"
-			android:onClick="onMyButtonClick"></Button>
+			android:onClick="onMyButtonClick"
+			android:textSize="23dp"></Button>
 	</LinearLayout>
 	<ListView
 		android:layout_height="wrap_content"

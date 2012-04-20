@@ -35,7 +35,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     private SelectMultipleAdapter adapter;
     
     // buttons
-    private Button buttonAddStudent, buttonResetSearch, buttonBack;
+    private Button buttonAddStudent, buttonResetSearch;// buttonBack;
     private EditText etSearchStudent;
     
     @Override
@@ -142,8 +142,8 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
-        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
-        buttonBack.setOnClickListener(this);
+//        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
+//        buttonBack.setOnClickListener(this);
         
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setFocusable(true);
@@ -159,11 +159,11 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
 		if (v == buttonResetSearch) {
             etSearchStudent.setText("");
         }
-        if (v == buttonBack) {
-            finish();
+//        if (v == buttonBack) {
+//            finish();
 //            Intent i = new Intent(this, CourseOverviewActivity.class);    
 //            startActivity(i);
-        }
+//        }
 	}
 	
 	public void openCreateStudentDialog() {

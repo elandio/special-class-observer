@@ -13,19 +13,24 @@
         android:id="@+id/convert_to_pdf_sendMail"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/convert_to_pdf_mail" />
+        android:text="@string/convert_to_pdf_mail"
+        android:layout_marginTop="15dp"
+        android:textSize="23dp" />
 
     <Button
         android:id="@+id/convert_to_pdf_openPdf"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/convert_to_pdf_open" />
+        android:text="@string/convert_to_pdf_open"
+        android:layout_marginTop="10dp" 
+        android:textSize="23dp"/>
     
     <Button
         android:id="@+id/convert_to_pdf_done"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/convert_to_pdf_done" />
+        android:text="@string/convert_to_pdf_done"
+        android:textSize="23dp" />
 
 </LinearLayout>
