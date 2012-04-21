@@ -31,7 +31,7 @@ import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
-import edu.uwp.cs.android.sco.view.MyListAdapter;
+import edu.uwp.cs.android.sco.view.StudentListViewAdapter;
 
 public class StudentOverviewActivity extends ListActivity implements View.OnClickListener{
 	
@@ -44,7 +44,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private Cursor cursor;
     private long courseId;
     private String courseName;
-    private MyListAdapter adapter;
+    private StudentListViewAdapter adapter;
     
     private static final int OPEN_ID = Menu.FIRST;
     private static final int EDIT_ID = Menu.FIRST + 1;
@@ -146,10 +146,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), null, null, null, null, orderBy);
-        String[] from = { textColumn, StudentDao.Properties.LName.columnName };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
+        String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
+        int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        MyListAdapter adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 0, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
@@ -182,11 +182,10 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         String where = "_id IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), where, null, null, null, orderBy);
-        String[] from = { textColumn, StudentDao.Properties.LName.columnName };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
+        String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
+        int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
-        setListAdapter(adapter);
+        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 0, cursor, from, to);        setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
         

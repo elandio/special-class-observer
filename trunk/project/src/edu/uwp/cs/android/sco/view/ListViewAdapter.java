@@ -12,15 +12,25 @@ import android.widget.SimpleCursorAdapter;
 /**
  * @author Moritz
  */
-public class MyListAdapter extends SimpleCursorAdapter {
+public class ListViewAdapter extends SimpleCursorAdapter {
 
-    private int[] colors = new int[] { 0x30ffffff, 0x30808080 };
+	private static int[] themeColorsDark = new int[] { 
+		0x55666666, // row 1 background  
+		0x55353535, // row 2 background
+		0xfff3f3f3, // row 1 text color  
+		0xfff9f9f9  // row 2 text color
+		};
+	private static int[] themeColorsLight = new int[] { 
+		0x55d9d9d9, // row 1 background  
+		0x55eeeeee, // row 2 background
+		0xff000000, // row 1 text color
+		0xff101010  // row 2 text color
+		};
+	
+	protected Cursor cursor;
+	protected int theme;
 
-//    private Filter newFilter;
-
-//    private final static String TAG = "MySFilter";
-
-    public MyListAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
+    public ListViewAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
         super(context, layout, c, from, to);
     }
 
@@ -28,10 +38,19 @@ public class MyListAdapter extends SimpleCursorAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = super.getView(position, convertView, parent);
 
-        int colorPos = position % colors.length;
-        view.setBackgroundColor(colors[colorPos]);
+        int[] themeColors = getThemeColors();
+	    int colorPos = position % 2;
+        view.setBackgroundColor(themeColors[colorPos]);
         return view;
     }
+    
+	public int[] getThemeColors() {
+		if (theme == 1) {
+			return themeColorsLight;
+		} else {
+			return themeColorsDark;
+		}
+	}	
 
 //    @Override
 //    public Filter getFilter() {

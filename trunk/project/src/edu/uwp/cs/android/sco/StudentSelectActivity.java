@@ -23,7 +23,7 @@ import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
-import edu.uwp.cs.android.sco.view.SelectMultipleAdapter;
+import edu.uwp.cs.android.sco.view.StudentListViewAdapter;
 
 public class StudentSelectActivity extends ListActivity implements View.OnClickListener{
 	
@@ -36,7 +36,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     private Cursor cursor;
     private long courseId;
     private String courseName;
-    private SelectMultipleAdapter adapter;
+    private StudentListViewAdapter adapter;
     
     private List<Long> selectedStudents;
     
@@ -139,7 +139,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
         int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        adapter = new SelectMultipleAdapter(this, R.layout.student_select_multiple_row, cursor, from, to);
+        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 1, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
@@ -278,7 +278,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
     	if (selectedStudents.contains(studentId)) {
     		selectedStudents.remove(studentId);
-    		int[] colors = adapter.getColors();
+    		int[] colors = adapter.getThemeColors();
         	int colorPos = position % colors.length;
     	    //v.findViewById(R.id.listViewRow).setBackgroundColor(colors[colorPos]);
     		v.setBackgroundColor(colors[colorPos]);    		

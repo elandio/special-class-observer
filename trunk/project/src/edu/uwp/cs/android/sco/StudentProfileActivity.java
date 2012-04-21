@@ -81,6 +81,11 @@ public class StudentProfileActivity extends ListActivity {
     	releaseAllResources();
     }
     
+    @Override
+	public void onBackPressed() {
+		openSaveConfirmDialog();
+	}
+    
     private void releaseAllResources() {
     	adapter = null;
     	studentDao = null;
@@ -138,11 +143,6 @@ public class StudentProfileActivity extends ListActivity {
 	
 	public Disability getDisability(int position) {
 		return(((StudentAdapter)getListAdapter()).getItem(position));
-	}
-	
-	@Override
-	public void onBackPressed() {
-		openSaveConfirmDialog();
 	}
 	
     protected void openSaveConfirmDialog() {
