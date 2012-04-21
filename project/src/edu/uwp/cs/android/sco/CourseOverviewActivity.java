@@ -34,7 +34,7 @@ import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
-import edu.uwp.cs.android.sco.view.MyListAdapter;
+import edu.uwp.cs.android.sco.view.ListViewAdapter;
 
 public class CourseOverviewActivity extends ListActivity implements View.OnClickListener {
 
@@ -45,7 +45,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     private DaoSession daoSession;
     private CourseDao courseDao;
     private Cursor cursor;
-    private MyListAdapter adapter;
+    private ListViewAdapter adapter;
 
     // buttons
     private Button buttonAddCourse, buttonResetSearch;
@@ -130,7 +130,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         String[] from = { textColumn, CourseDao.Properties.Category.columnName };
         int[] to = { android.R.id.text1, android.R.id.text2 };
         
-        adapter = new MyListAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        adapter = new ListViewAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
         setListAdapter(adapter);
         
         // initialize buttons and set listeners

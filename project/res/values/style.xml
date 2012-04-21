@@ -15,8 +15,13 @@
 		<item name="android:windowAnimationStyle">@style/Animations.SplashScreen</item>				
 	</style>
 	<style name="listViewTextNormal">
-        <item name="android:textColor">#FF000000</item>
         <item name="android:textSize">22dp</item>
+    </style>
+    <style name="listViewTextSmall">
+        <item name="android:textSize">18dp</item>
+    </style>
+    <style name="listViewTextSmaller">
+        <item name="android:textSize">15dp</item>
     </style>
     <style name="listViewTextNormalGrey">
         <item name="android:textColor">#FF999999</item>
@@ -25,5 +30,9 @@
     <style name="listViewTextSmallGrey">
         <item name="android:textColor">#FF999999</item>
         <item name="android:textSize">18dp</item>
+    </style>
+    <style name="listViewTextSmallerGrey">
+        <item name="android:textColor">#FF999999</item>
+        <item name="android:textSize">15dp</item>
     </style>
 </resources>
