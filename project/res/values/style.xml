@@ -13,5 +13,17 @@
 		<item name="android:windowIsFloating">true</item>
 		<item name="android:backgroundDimEnabled">false</item>
 		<item name="android:windowAnimationStyle">@style/Animations.SplashScreen</item>				
-	</style>		
+	</style>
+	<style name="listViewTextNormal">
+        <item name="android:textColor">#FF000000</item>
+        <item name="android:textSize">22dp</item>
+    </style>
+    <style name="listViewTextNormalGrey">
+        <item name="android:textColor">#FF999999</item>
+        <item name="android:textSize">22dp</item>
+    </style>
+    <style name="listViewTextSmallGrey">
+        <item name="android:textColor">#FF999999</item>
+        <item name="android:textSize">18dp</item>
+    </style>
 </resources>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="bg_light_grey">#ffc2c2c2</color>
-    <color name="bg_dark_grey">#ff252525</color>
+    
+    <color name="listView_backgroud_light">#fff3f3f3</color>
+    <color name="listView_selected_row">#ff5b9dff</color>
+    
+    <color name="listView_light_row_1">#ffeeeeee</color>
+    <color name="listView_light_row_2">#ffd9d9d9</color>
+    
 </resources>

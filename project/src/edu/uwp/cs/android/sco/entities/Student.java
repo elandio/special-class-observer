@@ -209,9 +209,14 @@ public class Student {
         }
         
         for (Long key : courseRelations) {
-        	daoSession.getRelationCourseStudentDao().deleteByKey(key);
+        	deleteRelation(key);
 		}        
-    } 
+    }
+    
+    public void deleteRelation(long relationId) {
+    	daoSession.getRelationCourseStudentDao().deleteByKey(relationId);
+    	// TODO - delete element from courses too ??? or requery the cursor, adapter etc.
+    }
     
     public void updateDisabilities(List<Disability> disUp){
     	for (int i=0; i<disUp.size(); i++){
