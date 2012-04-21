@@ -42,5 +42,14 @@
 	<ListView
 		android:layout_height="wrap_content"
 		android:id="@android:id/list"
-		android:layout_width="fill_parent"></ListView>
+		android:layout_width="fill_parent"/>
+	<!-- 
+	<TextView 
+	    android:id="@id/android:empty" 
+	    android:layout_width="fill_parent"
+        android:layout_height="match_parent" 
+        android:textSize="23dp"
+        android:gravity="center"
+        android:text="The student list is empty. You can create new students." />
+	 -->
 </LinearLayout>

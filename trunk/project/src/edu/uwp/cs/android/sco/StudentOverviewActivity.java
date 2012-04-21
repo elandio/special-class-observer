@@ -47,9 +47,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private MyListAdapter adapter;
     
     private static final int OPEN_ID = Menu.FIRST;
-    private static final int EDIT_ID = Menu.FIRST +1;
-    private static final int PRINT_ID = Menu.FIRST +2;
-    private static final int DELETE_ID = Menu.FIRST +3;   
+    private static final int EDIT_ID = Menu.FIRST + 1;
+    private static final int PRINT_ID = Menu.FIRST + 2;
+    private static final int REMOVE_ID = Menu.FIRST + 3;   
     
     // buttons
     private Button buttonAddStudent, buttonResetSearch; // buttonBack;
@@ -354,6 +354,31 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     	alert.show();
     }
     
+    /**
+     * Remove student from a course
+     */
+    protected void removeStudentFromCourseDialog(long studentId) {
+    	final Student student = studentDao.load(studentId);
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(StudentOverviewActivity.this);
+    	builder.setMessage("Are you sure you want to remove the student " 
+    						+ student.getFName() + " " + student.getLName() 
+    						+ " from your course?")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	    	   public void onClick(DialogInterface dialog, int id) {
+    	               student.deleteRelation(getSingleRelationKey(student.getId()));
+    	               cursor.requery();
+    	               Log.d("StudentOverviewActivity", "Removed student from course, studentId: " + student.getId());
+    	           }
+    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
     private List<Long> getCourseRelations(long studentId) {
     	RelationCourseStudentDao relDao = daoSession.getRelationCourseStudentDao();
     	String where = "STUDENT_ID = " + studentId;
@@ -366,6 +391,19 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         mCursor.close();
         return relationPKeys;
     }
+    
+    private long getSingleRelationKey(long studentId) {
+    	RelationCourseStudentDao relDao = daoSession.getRelationCourseStudentDao();
+    	String where = "STUDENT_ID = " + studentId + " AND COURSE_ID = " + courseId;
+        Cursor mCursor = db.query(relDao.getTablename(), relDao.getAllColumns(), where, null, null, null, null);
+        
+        long relationKey = -1l;
+        for(mCursor.moveToFirst(); !mCursor.isAfterLast(); mCursor.moveToNext()) {
+        	relationKey = mCursor.getLong(0);
+        }
+        mCursor.close();
+        return relationKey;
+    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
@@ -373,7 +411,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         menu.add(0, OPEN_ID, 0, "Open student's profil");
         menu.add(0, EDIT_ID, 0, "Edit student's profil");
         menu.add(0, PRINT_ID, 0, "View PDF / Send via E-Mail");
-        menu.add(0, DELETE_ID, 0, "Remove from course");
+        menu.add(0, REMOVE_ID, 0, "Remove from course");
     }
 
     @Override
@@ -393,8 +431,9 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 i.putExtra("studentId", studentId);
                 startActivity(i);
                break;    
-            case DELETE_ID:
-                openDeleteDialog(studentId);
+            case REMOVE_ID:
+                //openDeleteDialog(studentId);
+            	removeStudentFromCourseDialog(studentId);
                 break;
             default:
             	Log.e("StudentOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");

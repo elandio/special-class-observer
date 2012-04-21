@@ -1,5 +1,9 @@
 package edu.uwp.cs.android.sco;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.database.Cursor;
@@ -34,8 +38,11 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     private String courseName;
     private SelectMultipleAdapter adapter;
     
+    private List<Long> selectedStudents;
+    
     // buttons
-    private Button buttonAddStudent, buttonResetSearch;// buttonBack;
+    private Button buttonCreateStudent, buttonResetSearch;
+    private Button buttonAddStudentsToCourse, buttonCancelOperation;
     private EditText etSearchStudent;
     
     @Override
@@ -105,6 +112,8 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         daoSession = daoMaster.newSession();
         studentDao = daoSession.getStudentDao();
         
+        selectedStudents = new ArrayList<Long>();
+        
     	// load view
     	if (courseId == -1l) {
     		/*
@@ -127,8 +136,8 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         String where = "_id NOT IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), where, null, null, null, orderBy);
-        String[] from = { textColumn, StudentDao.Properties.LName.columnName };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
+        String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
+        int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
         adapter = new SelectMultipleAdapter(this, R.layout.student_select_multiple_row, cursor, from, to);
         setListAdapter(adapter);
@@ -136,14 +145,17 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
         
         // initialize buttons and set onclicklisteners
-        buttonAddStudent = (Button) findViewById(R.id.student_overview_bCreateStudent);
-        buttonAddStudent.setOnClickListener(this);
+        buttonCreateStudent = (Button) findViewById(R.id.student_overview_bCreateStudent);
+        buttonCreateStudent.setOnClickListener(this);
         
         buttonResetSearch = (Button) findViewById(R.id.student_overview_bResetSearch);
         buttonResetSearch.setOnClickListener(this);
         
-//        buttonBack = (Button) findViewById(R.id.student_overview_bBack);
-//        buttonBack.setOnClickListener(this);
+        buttonAddStudentsToCourse = (Button) findViewById(R.id.student_select_bAddStudentsToCourse);
+        buttonAddStudentsToCourse.setOnClickListener(this);
+        
+        buttonCancelOperation = (Button) findViewById(R.id.student_select_bCancelOperation);
+        buttonCancelOperation.setOnClickListener(this);
         
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         getListView().setFocusable(true);
@@ -153,17 +165,20 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
 
 	@Override
 	public void onClick(View v) {
-		if (v == buttonAddStudent) {
+		if (v == buttonCreateStudent) {
 			openCreateStudentDialog();
 		}
 		if (v == buttonResetSearch) {
             etSearchStudent.setText("");
         }
-//        if (v == buttonBack) {
-//            finish();
-//            Intent i = new Intent(this, CourseOverviewActivity.class);    
-//            startActivity(i);
-//        }
+		if (v == buttonAddStudentsToCourse) {
+			addStudentsToCourse();
+			finish();
+		}
+		if (v == buttonCancelOperation) {
+			// TODO maybe setting a confirm dialog first
+			finish();
+		}
 	}
 	
 	public void openCreateStudentDialog() {
@@ -231,13 +246,14 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
                     	Log.e("StudentSelectActivity", "ERROR: COURSE IS NOT INITIALIZED");
                     }
                     
-                    course.addStudent(student);
-                    // TODO Output: Student was created and added to this course
+                    // TODO student could be added to the course immediately 
+                    // course.addStudent(student);
                 }
                 
                 studentDao.update(student);
 
                 cursor.requery();
+                getListView();
                 createStudentDialog.dismiss();
             }
         });
@@ -260,8 +276,24 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long studentId) {
+    	if (selectedStudents.contains(studentId)) {
+    		selectedStudents.remove(studentId);
+    		int[] colors = adapter.getColors();
+        	int colorPos = position % colors.length;
+    	    //v.findViewById(R.id.listViewRow).setBackgroundColor(colors[colorPos]);
+    		v.setBackgroundColor(colors[colorPos]);    		
+    	} else {
+    		selectedStudents.add(studentId);
+    		v.setBackgroundColor(getResources().getColor(R.color.listView_selected_row));
+    	}
+    	System.out.println(selectedStudents);
+    }
+    
+    private void addStudentsToCourse() {
     	Course course = daoSession.getCourseDao().load(courseId);
-    	course.addStudent(studentId);
+    	for (Long studentId : selectedStudents) {
+    		course.addStudent(studentId);
+		}
     }
     
 }
