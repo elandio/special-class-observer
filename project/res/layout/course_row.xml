@@ -20,7 +20,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1">
             <TextView 
-                    android:id="@+id/student_select_firstName"
+                    android:id="@+id/course_row_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -28,7 +28,7 @@
                     style="@style/listViewTextNormal" />
             
                 <TextView 
-                    android:id="@+id/student_select_lastName"
+                    android:id="@+id/course_row_category"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -36,8 +36,8 @@
             
         </LinearLayout>
             
-            <TextView 
-            android:id="@+id/student_select_lastModified"
+        <TextView 
+            android:id="@+id/course_row_semesterYear"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
