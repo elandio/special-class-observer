@@ -45,6 +45,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     private long courseId;
     private String courseName;
     private StudentListViewAdapter adapter;
+    private boolean isAllStudents = true;
     
     private static final int OPEN_ID = Menu.FIRST;
     private static final int EDIT_ID = Menu.FIRST + 1;
@@ -133,10 +134,12 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
     		// display all students
     		System.out.println("display all students");
     		showAllStudents();
+    		isAllStudents = true;
     	} else {
     		// display student depending on courseId
     		System.out.println("display course " + courseId);
     		showCourseStudents();
+    		isAllStudents = false;
     	}
     }
     
@@ -410,7 +413,11 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         menu.add(0, OPEN_ID, 0, "Open student's profil");
         menu.add(0, EDIT_ID, 0, "Edit student's profil");
         menu.add(0, PRINT_ID, 0, "View PDF / Send via E-Mail");
-        menu.add(0, REMOVE_ID, 0, "Remove from course");
+        if(isAllStudents){
+            menu.add(0, REMOVE_ID, 0, "Delete student");
+        }else {
+            menu.add(0, REMOVE_ID, 0, "Remove from course");
+        }
     }
 
     @Override
@@ -431,8 +438,12 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
                 startActivity(i);
                break;    
             case REMOVE_ID:
-                //openDeleteDialog(studentId);
-            	removeStudentFromCourseDialog(studentId);
+                if (isAllStudents) {
+                    openDeleteDialog(studentId);
+                }
+                else {
+                    removeStudentFromCourseDialog(studentId);
+                }
                 break;
             default:
             	Log.e("StudentOverviewActivity", "UNKNOWN CASE IN ContextItemSelected(MenuItem item)");
@@ -499,7 +510,6 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
 
                 Student student = new Student(studentId, firstName, lastName);
                 studentDao.update(student);
-                student.addDefaultDisabilities();
                 Log.d("SCO-Project", "Inserted new student: [" + student.getId() + "] " + firstName + " " + lastName);
                 
                 // if user selected a course - add course_student relation
