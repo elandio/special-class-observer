@@ -1,7 +1,6 @@
 package edu.uwp.cs.android.sco;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.Dialog;

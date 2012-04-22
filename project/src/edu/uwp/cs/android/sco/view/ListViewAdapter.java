@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 
-/**
- * @author Moritz
- */
 public class ListViewAdapter extends SimpleCursorAdapter {
 
     private static int[] themeColorsDark = new int[] { 
@@ -30,19 +27,15 @@ public class ListViewAdapter extends SimpleCursorAdapter {
     protected Cursor cursor;
     protected int theme;
 
-	public ListViewAdapter(Context context, int layout, Cursor c,
-			String[] from, int[] to) {
+	public ListViewAdapter(Context context, int layout, int theme, Cursor c, String[] from, int[] to) {
 		super(context, layout, c, from, to);
+		this.cursor = c;
+		this.theme = theme;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = super.getView(position, convertView, parent);
-
-		int[] themeColors = getThemeColors();
-		int colorPos = position % 2;
-		view.setBackgroundColor(themeColors[colorPos]);
-		return view;
+		return super.getView(position, convertView, parent);
 	}
 
 	public int[] getThemeColors() {

@@ -30,11 +30,10 @@ import android.widget.Toast;
 import edu.uwp.cs.android.sco.entities.Course;
 import edu.uwp.cs.android.sco.entities.CourseDao;
 import edu.uwp.cs.android.sco.entities.DaoMaster;
-import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.DaoMaster.DevOpenHelper;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
-import edu.uwp.cs.android.sco.view.ListViewAdapter;
+import edu.uwp.cs.android.sco.view.CourseListViewAdapter;
 
 public class CourseOverviewActivity extends ListActivity implements View.OnClickListener {
 
@@ -45,7 +44,7 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
     private DaoSession daoSession;
     private CourseDao courseDao;
     private Cursor cursor;
-    private ListViewAdapter adapter;
+    private CourseListViewAdapter adapter;
 
     // buttons
     private Button buttonAddCourse, buttonResetSearch;
@@ -127,10 +126,11 @@ public class CourseOverviewActivity extends ListActivity implements View.OnClick
         String textColumn = CourseDao.Properties.Name.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         cursor = db.query(courseDao.getTablename(), courseDao.getAllColumns(), null, null, null, null, orderBy);
-        String[] from = { textColumn, CourseDao.Properties.Category.columnName };
-        int[] to = { android.R.id.text1, android.R.id.text2 };
+        String[] from = { textColumn, CourseDao.Properties.Category.columnName, 
+        				  CourseDao.Properties.Semester.columnName, CourseDao.Properties.Year.columnName };
+        int[] to = { R.id.course_row_name, R.id.course_row_category };
         
-        adapter = new ListViewAdapter(this, android.R.layout.simple_list_item_2, cursor, from, to);
+        adapter = new CourseListViewAdapter(this, R.layout.course_row, 0, cursor, from, to);
         setListAdapter(adapter);
         
         // initialize buttons and set listeners

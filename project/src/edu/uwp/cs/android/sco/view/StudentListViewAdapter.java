@@ -6,30 +6,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class StudentListViewAdapter extends SimpleCursorAdapter {
+public class StudentListViewAdapter extends ListViewAdapter {
         
-	private static int[] themeColorsDark = new int[] { 
-        0x55666666, // row 1 background  
-        0x55353535, // row 2 background
-        0xfff3f3f3, // row 1 text color  
-        0xfff9f9f9  // row 2 text color
-        };
-	private static int[] themeColorsLight = new int[] { 
-        0x55d9d9d9, // row 1 background  
-        0x55eeeeee, // row 2 background
-        0xff000000, // row 1 text color
-        0xff101010  // row 2 text color
-        };
-
-	protected Cursor cursor;
-	protected int theme;
-
-	public StudentListViewAdapter(Context context, int layout, int theme,
-			Cursor c, String[] from, int[] to) {
-		super(context, layout, c, from, to);
+	public StudentListViewAdapter(Context context, int layout, int theme, Cursor c, String[] from, int[] to) {
+		super(context, layout, theme, c, from, to);
 		this.cursor = c;
 		this.theme = theme;
 	}
@@ -57,14 +39,6 @@ public class StudentListViewAdapter extends SimpleCursorAdapter {
 		lastModified.setText(LayoutFormatter.lastModification(time));
 
 		return view;
-	}
-	
-	public int[] getThemeColors() {
-	    if (theme == 1) {
-	            return themeColorsLight;
-	    } else {
-	            return themeColorsDark;
-	    }
-	}    
+	}  
 
 }
