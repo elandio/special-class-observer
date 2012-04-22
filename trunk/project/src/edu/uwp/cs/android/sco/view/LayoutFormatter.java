@@ -6,7 +6,6 @@ import java.util.Calendar;
 public class LayoutFormatter {
 	
 	public static String timestampToString(long time) {
-	    System.out.println(time);
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(time);
 

@@ -130,7 +130,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     }
     
     protected void showNonCourseStudents() {		
-    	setContentView(R.layout.student_select_multiple);
+    	setContentView(R.layout.student_select);
     	
         String textColumn = StudentDao.Properties.FName.columnName;
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
@@ -139,7 +139,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
         int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 1, cursor, from, to);
+        adapter = new StudentListViewAdapter(this, R.layout.student_row, 1, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
@@ -279,7 +279,7 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
     	if (selectedStudents.contains(studentId)) {
     		selectedStudents.remove(studentId);
     		int[] colors = adapter.getThemeColors();
-        	int colorPos = position % colors.length;
+        	int colorPos = position % 2;
     	    //v.findViewById(R.id.listViewRow).setBackgroundColor(colors[colorPos]);
     		v.setBackgroundColor(colors[colorPos]);    		
     	} else {

@@ -149,7 +149,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
         int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 0, cursor, from, to);
+        adapter = new StudentListViewAdapter(this, R.layout.student_row, 0, cursor, from, to);
         setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
@@ -185,7 +185,7 @@ public class StudentOverviewActivity extends ListActivity implements View.OnClic
         String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
         int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
 
-        adapter = new StudentListViewAdapter(this, R.layout.student_listview_row, 0, cursor, from, to);        setListAdapter(adapter);
+        adapter = new StudentListViewAdapter(this, R.layout.student_row, 0, cursor, from, to);        setListAdapter(adapter);
 
         etSearchStudent = (EditText) findViewById(R.id.et_searchStudent);
         
