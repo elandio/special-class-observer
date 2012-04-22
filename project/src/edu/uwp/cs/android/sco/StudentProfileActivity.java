@@ -23,7 +23,7 @@ import edu.uwp.cs.android.sco.entities.Student;
 import edu.uwp.cs.android.sco.entities.StudentDao;
 import edu.uwp.cs.android.sco.view.StudentAdapter;
 
-public class StudentProfileActivity extends ListActivity {
+public class StudentProfileActivity extends ListActivity implements View.OnClickListener {
 	
 	// database management
     private SQLiteDatabase db;
@@ -32,13 +32,13 @@ public class StudentProfileActivity extends ListActivity {
     private StudentDao studentDao;
     private Student student;
     private StudentAdapter adapter;
-	
     
     // buttons
-    private Button bsave;
+    private Button buttonSaveChanges, buttonCancelOperation; 
     
     // editText
     private EditText comment;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,26 +119,32 @@ public class StudentProfileActivity extends ListActivity {
 	    adapter = new StudentAdapter(this, R.layout.student_profile_row, student.getDisabilities());
 	    
 	    //Adding the header
-	    ListView listView = getListView();
-	    View header = (View)getLayoutInflater().inflate(R.layout.student_profile_header, null);
-        listView.addHeaderView(header);
-        TextView tvheader = (TextView)findViewById(R.id.tvhead);
-	    tvheader.setText(student.getFName() + " " +student.getLName());
+	    TextView tvStudentName = (TextView) findViewById(R.id.student_profile_name);
+	    tvStudentName.setText(student.getFName() + " " + student.getLName());
 	    
 	    //Adding the footer
-	    View footer = (View)getLayoutInflater().inflate(R.layout.studnet_profile_footer, null);
-	    listView.addFooterView(footer);
-	    comment = (EditText)findViewById(R.id.et_profile_comment);
-	    bsave = (Button)findViewById(R.id.bsave);
-	    bsave.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				openSaveConfirmDialog();
-			}
-		});
+//	    View footer = (View)getLayoutInflater().inflate(R.layout.studnet_profile_footer, null);
+//	    listView.addFooterView(footer);
+//	    comment = (EditText)findViewById(R.id.et_profile_comment);
+	    
+	    // initialize buttons and set onclicklisteners
+        buttonSaveChanges = (Button) findViewById(R.id.student_profile_bSaveChanges);
+        buttonSaveChanges.setOnClickListener(this);
+        
+        buttonCancelOperation = (Button) findViewById(R.id.student_profile_bCancelOperation);
+        buttonCancelOperation.setOnClickListener(this);
 
         setListAdapter(adapter);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		if (v == buttonSaveChanges) {
+			openSaveConfirmDialog();
+		}
+		if (v == buttonCancelOperation) {
+			finish();
+		}
 	}
 	
 	public Disability getDisability(int position) {

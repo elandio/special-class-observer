@@ -11,18 +11,18 @@ import android.widget.SimpleCursorAdapter;
 
 public class ListViewAdapter extends SimpleCursorAdapter {
 
-    private static int[] themeColorsDark = new int[] { 
-            0x55666666, // row 1 background  
-            0x55353535, // row 2 background
-            0xfff3f3f3, // row 1 text color  
-            0xfff9f9f9  // row 2 text color
-            };
-    private static int[] themeColorsLight = new int[] { 
-            0x55d9d9d9, // row 1 background  
-            0x55eeeeee, // row 2 background
-            0xff000000, // row 1 text color
-            0xff101010  // row 2 text color
-            };
+    private static final int[] themeColorsDark = new int[] { 
+        0x55666666, // row 1 background  
+        0x55353535, // row 2 background
+        0xfff3f3f3, // row 1 text color  
+        0xfff9f9f9  // row 2 text color
+        };
+    private static final int[] themeColorsLight = new int[] { 
+        0x55d9d9d9, // row 1 background  
+        0x55eeeeee, // row 2 background
+        0xff000000, // row 1 text color
+        0xff101010  // row 2 text color
+        };
     
     protected Cursor cursor;
     protected int theme;
