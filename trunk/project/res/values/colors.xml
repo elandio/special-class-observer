@@ -4,6 +4,8 @@
     <color name="listView_backgroud_light">#fff3f3f3</color>
     <color name="listView_selected_row">#ff5b9dff</color>
     
+    <color name="listView_header">#ff3072a1</color>
+    
     <color name="listView_light_row_1">#ffeeeeee</color>
     <color name="listView_light_row_2">#ffd9d9d9</color>
     
