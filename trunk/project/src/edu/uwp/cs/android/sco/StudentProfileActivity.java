@@ -83,7 +83,25 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     
     @Override
 	public void onBackPressed() {
-		openSaveConfirmDialog();
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Want to save changes on this students profile? ")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	    	   public void onClick(DialogInterface dialog, int id) {
+    					List<Disability> disUp = new ArrayList<Disability>();
+    					for (int i=0; i<adapter.getCount(); i++){
+    						disUp.add(adapter.getItem(i));
+    					}
+    					student.updateDisabilities(disUp);
+    					finish();
+    	           }
+    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                finish();
+    	           }
+    	       });
+    	AlertDialog alert = builder.create();
+    	alert.show();
 	}
     
     private void releaseAllResources() {
