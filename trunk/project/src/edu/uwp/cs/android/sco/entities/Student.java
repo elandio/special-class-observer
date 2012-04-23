@@ -220,9 +220,9 @@ public class Student {
     
     public void updateDisabilities(List<Disability> disUp){
     	for (int i=0; i<disUp.size(); i++){
-    		disabilities.set(i, disUp.get(i));
     		daoSession.update(disUp.get(i));
     	}
+    	disabilities=disUp;
     	
     }
     
