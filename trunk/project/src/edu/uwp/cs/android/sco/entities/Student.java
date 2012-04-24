@@ -235,6 +235,7 @@ public class Student {
     		daoSession.getDisabilityDao().update(disUp.get(i));
     	}
     	this.note = note;
+    	disabilityLevel=1;
     	disabilities = disUp;
     	lastModified = new Date();
     	daoSession.update(this);

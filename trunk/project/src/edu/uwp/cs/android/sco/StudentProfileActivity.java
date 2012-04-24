@@ -160,15 +160,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	    	   public void onClick(DialogInterface dialog, int id) {
-    					List<Disability> disUp = new ArrayList<Disability>();
-    					Integer ratingSum=0;
-    					for (int i=0; i<adapter.getCount(); i++){
-    						Disability tempDis = adapter.getItem(i);
-    						ratingSum=ratingSum+tempDis.getRating();
-    						disUp.add(tempDis);
-    					}
-    					
-    					student.updateDisabilities(disUp, comment.getText().toString());
+    					Integer ratingSum = updateStudentAndRating();
     					if (ratingSum>criticalRatingSum){
     						informUserRating(true);
     					}else{
@@ -176,6 +168,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     					}
     					
     	           }
+
     	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	   finish();
@@ -190,20 +183,26 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     	AlertDialog alert = builder.create();
     	alert.show();
 	}
+	
+	private Integer updateStudentAndRating() {
+		List<Disability> disUp = new ArrayList<Disability>();
+		Integer ratingSum=0;
+		for (int i=0; i<adapter.getCount(); i++){
+			Disability tempDis = adapter.getItem(i);
+			ratingSum=ratingSum+tempDis.getRating();
+			disUp.add(tempDis);
+		}
+		
+		student.updateDisabilities(disUp, comment.getText().toString());
+		return ratingSum;
+	}
     protected void openSaveConfirmDialog() {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage("Want to save changes on this students profile? ")
     	       .setCancelable(false)
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	    	   public void onClick(DialogInterface dialog, int id) {
-    					List<Disability> disUp = new ArrayList<Disability>();
-    					Integer ratingSum=0;
-    					for (int i=0; i<adapter.getCount(); i++){
-    						Disability tempDis = adapter.getItem(i);
-    						ratingSum=ratingSum+tempDis.getRating();
-    						disUp.add(tempDis);
-    					}
-    					student.updateDisabilities(disUp, comment.getText().toString());
+    	    		   	Integer ratingSum = updateStudentAndRating();
     					if (ratingSum>criticalRatingSum){
     						informUserRating(false);
     					}
