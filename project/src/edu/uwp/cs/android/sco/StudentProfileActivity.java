@@ -129,6 +129,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
 	    View footer = (View)getLayoutInflater().inflate(R.layout.student_profile_footer, null);
 	    getListView().addFooterView(footer);
 	    comment = (EditText)findViewById(R.id.student_profile_comment);
+	    comment.setText(student.getNote());
 	    
 	    // initialize buttons and set onclicklisteners
         buttonSaveChanges = (Button) findViewById(R.id.student_profile_bSaveChanges);
@@ -166,7 +167,8 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     						ratingSum=ratingSum+tempDis.getRating();
     						disUp.add(tempDis);
     					}
-    					student.updateDisabilities(disUp);
+    					
+    					student.updateDisabilities(disUp, comment.getText().toString());
     					if (ratingSum>criticalRatingSum){
     						informUserRating(true);
     					}else{
@@ -201,7 +203,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     						ratingSum=ratingSum+tempDis.getRating();
     						disUp.add(tempDis);
     					}
-    					student.updateDisabilities(disUp);
+    					student.updateDisabilities(disUp, comment.getText().toString());
     					if (ratingSum>criticalRatingSum){
     						informUserRating(false);
     					}
