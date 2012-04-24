@@ -126,9 +126,9 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
 	    tvStudentName.setText(student.getFName() + " " + student.getLName());
 	    
 	    //Adding the footer
-//	    View footer = (View)getLayoutInflater().inflate(R.layout.studnet_profile_footer, null);
-//	    listView.addFooterView(footer);
-//	    comment = (EditText)findViewById(R.id.et_profile_comment);
+	    View footer = (View)getLayoutInflater().inflate(R.layout.student_profile_footer, null);
+	    getListView().addFooterView(footer);
+	    comment = (EditText)findViewById(R.id.student_profile_comment);
 	    
 	    // initialize buttons and set onclicklisteners
         buttonSaveChanges = (Button) findViewById(R.id.student_profile_bSaveChanges);
