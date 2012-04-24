@@ -1,5 +1,6 @@
 package edu.uwp.cs.android.sco.entities;
 
+import java.util.Date;
 import java.util.List;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Disability;
@@ -220,10 +221,11 @@ public class Student {
     
     public void updateDisabilities(List<Disability> disUp){
     	for (int i=0; i<disUp.size(); i++){
-    		daoSession.update(disUp.get(i));
+    		daoSession.getDisabilityDao().update(disUp.get(i));
     	}
-    	disabilities=disUp;
-    	
+    	disabilities = disUp;
+    	lastModified = new Date();
+    	daoSession.update(this);
     }
     
     // KEEP METHODS END
