@@ -193,7 +193,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
 			disUp.add(tempDis);
 		}
 		
-		student.updateDisabilities(disUp, comment.getText().toString());
+		student.updateDisabilities(disUp, comment.getText().toString(), ratingSum);
 		return ratingSum;
 	}
     protected void openSaveConfirmDialog() {
