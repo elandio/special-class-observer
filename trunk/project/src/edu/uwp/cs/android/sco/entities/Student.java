@@ -2,6 +2,8 @@ package edu.uwp.cs.android.sco.entities;
 
 import java.util.Date;
 import java.util.List;
+
+import android.util.Log;
 import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.Disability;
 import de.greenrobot.dao.DaoException;
@@ -230,12 +232,25 @@ public class Student {
     	// TODO - delete element from courses too ??? or requery the cursor, adapter etc.
     }
     
-    public void updateDisabilities(List<Disability> disUp, String note){
+    public void updateDisabilities(List<Disability> disUp, String note, Integer totalRating){
     	for (int i=0; i<disUp.size(); i++){
     		daoSession.getDisabilityDao().update(disUp.get(i));
     	}
+    	
+    	
+    	if (totalRating<10){
+    		disabilityLevel=0;
+    	} 	
+    	if (totalRating>=10){
+    		disabilityLevel=1;
+    	}
+    	if (totalRating>=20){
+    		disabilityLevel=2;
+    	}
+    	if (totalRating>=30){
+    		disabilityLevel=3;
+    	}
     	this.note = note;
-    	disabilityLevel=1;
     	disabilities = disUp;
     	lastModified = new Date();
     	daoSession.update(this);
