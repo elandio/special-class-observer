@@ -40,13 +40,11 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     private EditText comment;
     
     //global variables
-    private boolean backButtonPressed;
     private final int criticalRatingSum = 15;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        backButtonPressed=false;
         Log.d("StudentProfileActivity", "onCreate() called");
 //      openStudentProfile(); // will be executed by onResume()
     }
@@ -88,8 +86,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     
     @Override
 	public void onBackPressed() {
-    	backButtonPressed=true;
-    	openSaveConfirmDialog();
+    	backButtonDialog();
 	}
     
     private void releaseAllResources() {
@@ -156,7 +153,41 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
 	public Disability getDisability(int position) {
 		return(((StudentAdapter)getListAdapter()).getItem(position));
 	}
-	
+	protected void backButtonDialog(){
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Want to save changes on this students profile? ")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	    	   public void onClick(DialogInterface dialog, int id) {
+    					List<Disability> disUp = new ArrayList<Disability>();
+    					Integer ratingSum=0;
+    					for (int i=0; i<adapter.getCount(); i++){
+    						Disability tempDis = adapter.getItem(i);
+    						ratingSum=ratingSum+tempDis.getRating();
+    						disUp.add(tempDis);
+    					}
+    					student.updateDisabilities(disUp);
+    					if (ratingSum>criticalRatingSum){
+    						informUserRating(true);
+    					}else{
+    						finish();
+    					}
+    					
+    	           }
+    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	        	   finish();
+    	           }
+    	       }).setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+    	AlertDialog alert = builder.create();
+    	alert.show();
+	}
     protected void openSaveConfirmDialog() {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage("Want to save changes on this students profile? ")
@@ -172,33 +203,31 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     					}
     					student.updateDisabilities(disUp);
     					if (ratingSum>criticalRatingSum){
-    						informUserRating();
-    					}else{
-    						finish();
+    						informUserRating(false);
     					}
+    					dialog.cancel();
     					
     	           }
     	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
-    	        	   if (backButtonPressed){
-    	        		   finish();
-    	        	   }else {
     	        		   dialog.cancel();
-    	        	   }
     	           }
     	       });
-    	backButtonPressed=false;
     	AlertDialog alert = builder.create();
     	alert.show();
     }
     
-    protected void informUserRating() {
+    protected void informUserRating(final boolean backButtonPressed) {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
     	builder.setMessage("The students total rating is above 15. You maybe want to consult a Psychologist")
     	       .setCancelable(false)
     	       .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
     	    	   public void onClick(DialogInterface dialog, int id) {
-    	    		   finish();
+    	    		   if(backButtonPressed){
+    	    			   finish();
+    	    		   }else{
+    	    			   dialog.cancel();   
+    	    		   }
     	    	   }
     	       });
     	AlertDialog alert = builder.create();
