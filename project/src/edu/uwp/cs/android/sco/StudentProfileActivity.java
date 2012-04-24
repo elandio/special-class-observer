@@ -39,9 +39,14 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     // editText
     private EditText comment;
     
+    //global variables
+    private boolean backButtonPressed;
+    private final int criticalRatingSum = 15;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        backButtonPressed=false;
         Log.d("StudentProfileActivity", "onCreate() called");
 //      openStudentProfile(); // will be executed by onResume()
     }
@@ -83,25 +88,8 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     
     @Override
 	public void onBackPressed() {
-    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("Want to save changes on this students profile? ")
-    	       .setCancelable(false)
-    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-    	    	   public void onClick(DialogInterface dialog, int id) {
-    					List<Disability> disUp = new ArrayList<Disability>();
-    					for (int i=0; i<adapter.getCount(); i++){
-    						disUp.add(adapter.getItem(i));
-    					}
-    					student.updateDisabilities(disUp);
-    					finish();
-    	           }
-    	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-    	           public void onClick(DialogInterface dialog, int id) {
-    	                finish();
-    	           }
-    	       });
-    	AlertDialog alert = builder.create();
-    	alert.show();
+    	backButtonPressed=true;
+    	openSaveConfirmDialog();
 	}
     
     private void releaseAllResources() {
@@ -176,16 +164,42 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
     	    	   public void onClick(DialogInterface dialog, int id) {
     					List<Disability> disUp = new ArrayList<Disability>();
+    					Integer ratingSum=0;
     					for (int i=0; i<adapter.getCount(); i++){
-    						disUp.add(adapter.getItem(i));
+    						Disability tempDis = adapter.getItem(i);
+    						ratingSum=ratingSum+tempDis.getRating();
+    						disUp.add(tempDis);
     					}
     					student.updateDisabilities(disUp);
-    					finish();
+    					if (ratingSum>criticalRatingSum){
+    						informUserRating();
+    					}else{
+    						finish();
+    					}
+    					
     	           }
     	       }).setNegativeButton("No", new DialogInterface.OnClickListener() {
     	           public void onClick(DialogInterface dialog, int id) {
-    	                dialog.cancel();
+    	        	   if (backButtonPressed){
+    	        		   finish();
+    	        	   }else {
+    	        		   dialog.cancel();
+    	        	   }
     	           }
+    	       });
+    	backButtonPressed=false;
+    	AlertDialog alert = builder.create();
+    	alert.show();
+    }
+    
+    protected void informUserRating() {
+    	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("The students total rating is above 15. You maybe want to consult a Psychologist")
+    	       .setCancelable(false)
+    	       .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+    	    	   public void onClick(DialogInterface dialog, int id) {
+    	    		   finish();
+    	    	   }
     	       });
     	AlertDialog alert = builder.create();
     	alert.show();
