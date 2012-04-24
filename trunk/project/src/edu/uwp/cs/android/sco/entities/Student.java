@@ -219,10 +219,11 @@ public class Student {
     	// TODO - delete element from courses too ??? or requery the cursor, adapter etc.
     }
     
-    public void updateDisabilities(List<Disability> disUp){
+    public void updateDisabilities(List<Disability> disUp, String note){
     	for (int i=0; i<disUp.size(); i++){
     		daoSession.getDisabilityDao().update(disUp.get(i));
     	}
+    	this.note = note;
     	disabilities = disUp;
     	lastModified = new Date();
     	daoSession.update(this);
