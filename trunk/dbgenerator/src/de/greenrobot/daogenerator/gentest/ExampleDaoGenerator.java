@@ -47,6 +47,7 @@ public class ExampleDaoGenerator {
         student.addStringProperty("lName").notNull();
         student.addStringProperty("note");
         student.addDateProperty("lastModified").notNull();
+        student.addIntProperty("disabilityLevel");
 
         // generate disabilty entity and DAO
         Entity disability = schema.addEntity("Disability");
