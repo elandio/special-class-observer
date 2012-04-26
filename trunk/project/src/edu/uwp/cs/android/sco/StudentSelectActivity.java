@@ -135,8 +135,13 @@ public class StudentSelectActivity extends ListActivity implements View.OnClickL
         String orderBy = textColumn + " COLLATE LOCALIZED ASC";
         String where = "_id NOT IN (SELECT STUDENT_ID FROM RELATION_COURSE_STUDENT WHERE COURSE_ID = " + courseId + ")";
         cursor = db.query(studentDao.getTablename(), studentDao.getAllColumns(), where, null, null, null, orderBy);
-        String[] from = { textColumn, StudentDao.Properties.LName.columnName, StudentDao.Properties.LastModified.columnName };
-        int[] to = { R.id.student_select_firstName, R.id.student_select_lastName, R.id.student_select_lastModified };
+        String[] from = { textColumn, 
+        					StudentDao.Properties.LName.columnName, 
+        						StudentDao.Properties.LastModified.columnName,
+        							StudentDao.Properties.DisabilityLevel.columnName};
+        int[] to = { R.id.student_select_firstName, 
+        				R.id.student_select_lastName, 
+        					R.id.student_select_lastModified };
 
         adapter = new StudentListViewAdapter(this, R.layout.student_row, 1, cursor, from, to);
         setListAdapter(adapter);

@@ -164,6 +164,16 @@ public class ConvertToPDFActivity extends Activity {
 	    		addEmptyLine(paragraph, 2);
 	    		document.add(paragraph);
 			}
+    		
+    		// Add note block
+    		addEmptyLine(paragraph, 2);
+    		paragraph = new Paragraph("Notes / Comments:", fontHeader2);
+    		addEmptyLine(paragraph, 1);
+    		document.add(paragraph);
+    		
+    		paragraph = new Paragraph(student.getNote() , fontDefault);
+    		addEmptyLine(paragraph, 2);
+    		document.add(paragraph);
 
     		// close document and streams
             document.close();
