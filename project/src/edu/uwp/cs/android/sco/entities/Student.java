@@ -208,6 +208,12 @@ public class Student {
         addDisability("Understanding Issues", defaultInfo, "General", id);
         addDisability("Repeating Content Issues", defaultInfo, "General", id);
         addDisability("Panic attacks", defaultInfo, "General", id);
+        addDisability("Spoken Words", "Problems to distinguish, identify or separate the sounds in spoken words.", "Speaking", id);
+        addDisability("Letters", "Problems recognizing the sounds associated with letters and blend the sounds together to recognize a word.", "Speaking", id);
+        addDisability("Translating", "Problems translating printed words into spoken words.", "Speaking", id);
+        addDisability("Math facts", "Problems to remember and/or retrieve math facts", "Math", id);
+        addDisability("Math operations", "Confused with math operations", "Math", id);
+        addDisability("Math language processing", "Difficulties in language processing that may affect the ability to complete math problem solving", "Math", id);
     }
     
     public void deleteRelation(List<Long> courseRelations) {
