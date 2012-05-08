@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1" 
-            style="@style/customRatingBar"/>
+            style="@style/customRatingBar"
+            android:layout_marginLeft="15dp"/>
 
     </LinearLayout>
     
