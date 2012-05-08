@@ -8,6 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+/**
+ * This prototype was developed for the Mobile Device Programming class
+ * in the Spring Semester 2012 at the University of Wisconsin Parkside.
+ * 
+ * @author Michael Tiede, Matthias Kleinert, Moritz Duettmann
+ * @since May 2012
+ */
 public class CourseListViewAdapter extends ListViewAdapter {
 
 	public CourseListViewAdapter(Context context, int layout, int theme, Cursor c, String[] from, int[] to) {

@@ -15,6 +15,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
+/**
+ * This prototype was developed for the Mobile Device Programming class
+ * in the Spring Semester 2012 at the University of Wisconsin Parkside.
+ * 
+ * @author Michael Tiede, Matthias Kleinert, Moritz Duettmann
+ * @since May 2012
+ */
 public class StudentAdapter extends ArrayAdapter<Disability> {
 	
 	private static final int[] themeColorsDark = new int[] { 

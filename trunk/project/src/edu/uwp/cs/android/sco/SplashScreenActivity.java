@@ -8,6 +8,13 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+/**
+ * This prototype was developed for the Mobile Device Programming class
+ * in the Spring Semester 2012 at the University of Wisconsin Parkside.
+ * 
+ * @author Michael Tiede, Matthias Kleinert, Moritz Duettmann
+ * @since May 2012
+ */
 public class SplashScreenActivity extends Activity {
 	
     /**
