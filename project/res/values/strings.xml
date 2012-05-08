@@ -31,6 +31,9 @@
     <string name="faq_faqHead">FAQ </string>
     <string name="faq_faqText">Frequently asked questions are listed questions and answers, all supposed to be commonly asked in some context, and pertaining to a particular topic. "FAQ" is usually pronounced as an initialism rather than an acronym, but an acronym form does exist. Since the acronym FAQ originated in textual media, its pronunciation varies; "fack", "faak", "fax", and "facts" are commonly heard.[citation needed] Depending on usage, the term may refer specifically to a single frequently asked question, or to an assembled list of many questions and their answers. </string>
     <string name="faq_aboutHead">About </string>
-    <string name="faq_aboutText">An about page is a standard web page on a website, with the link to this page located on the upper left side of the home page or on the down side as part of a short colophon. When there is more space they are also called an about me page or about us page, depending on whether the site is created by a person or an organization. </string>
+    <string name="faq_aboutText">
+The App should support lecturers to find out whether a student has problems with different subjects in class, for example problems in reading, calculation, writing, painting, being concentrated or just paying attention. Problems of students in different subjects could be an indication, that this student has special needs. Based on the collected data the app should provide proposals if a psychologist should be contacted. 
+The app provides a list of the students in class. The lecturer can click on a student to open his/her profile. He/she can see the existing entries of the student can edit them or add missing notes. To provide more detailed information, the user can select the hardness grade for some entries. The user interface is very intuitive and easy to use, so that the lecturer is not distracted from his lecture or lesson. 
+The user is be able to export a student’s profile in a PDF-file to print or share it. It should also be possible to send the student’s profile to a psychologist, which can provide further support.</string>
 
 </resources>
