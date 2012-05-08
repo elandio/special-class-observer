@@ -45,7 +45,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     private EditText comment;
     
     //global variables
-    private final int criticalRatingSum = 15;
+    private final int criticalRatingSum = 30;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -225,7 +225,7 @@ public class StudentProfileActivity extends ListActivity implements View.OnClick
     
     protected void informUserRating(final boolean backButtonPressed) {
     	final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	builder.setMessage("The students total rating is above 15. You maybe want to consult a Psychologist")
+    	builder.setMessage("The students total rating is above " +  criticalRatingSum + ". You maybe should consult a Psychologist")
     	       .setCancelable(false)
     	       .setNeutralButton("Ok", new DialogInterface.OnClickListener() {
     	    	   public void onClick(DialogInterface dialog, int id) {
