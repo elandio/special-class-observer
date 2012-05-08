@@ -35,6 +35,13 @@ import edu.uwp.cs.android.sco.entities.DaoSession;
 import edu.uwp.cs.android.sco.entities.RelationCourseStudentDao;
 import edu.uwp.cs.android.sco.view.CourseListViewAdapter;
 
+/**
+ * This prototype was developed for the Mobile Device Programming class
+ * in the Spring Semester 2012 at the University of Wisconsin Parkside.
+ * 
+ * @author Michael Tiede, Matthias Kleinert, Moritz Duettmann
+ * @since May 2012
+ */
 public class CourseOverviewActivity extends ListActivity implements View.OnClickListener {
 
     // database management

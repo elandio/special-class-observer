@@ -204,9 +204,9 @@ public class Student {
     
     public void addDefaultDisabilities() {
     	String defaultInfo = "Lorem ipsum dolor sit amet, semper gravida.";
-        addDisability("Concentration Issues", defaultInfo, "General", id);
-        addDisability("Understanding Issues", defaultInfo, "General", id);
-        addDisability("Repeating Content Issues", defaultInfo, "General", id);
+        addDisability("Concentration", defaultInfo, "General", id);
+        addDisability("Understanding", defaultInfo, "General", id);
+        addDisability("Repeating Content", defaultInfo, "General", id);
         addDisability("Panic attacks", defaultInfo, "General", id);
         addDisability("Spoken Words", "Problems to distinguish, identify or separate the sounds in spoken words.", "Speaking", id);
         addDisability("Letters", "Problems recognizing the sounds associated with letters and blend the sounds together to recognize a word.", "Speaking", id);

@@ -9,6 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 
+/**
+ * This prototype was developed for the Mobile Device Programming class
+ * in the Spring Semester 2012 at the University of Wisconsin Parkside.
+ * 
+ * @author Michael Tiede, Matthias Kleinert, Moritz Duettmann
+ * @since May 2012
+ */
 public class ListViewAdapter extends SimpleCursorAdapter {
 
     private static final int[] themeColorsDark = new int[] { 
